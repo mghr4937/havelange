@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.security.auth.message.AuthException;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -34,7 +32,7 @@ public class AuthController {
             if (passwordEncoder.matches( pwd, user.getPassword())) {
                 String token = jwtUtils.getJWTToken(username);
                 user.setToken(token);
-                userRepository.save(user);
+                userRepository.saveAndFlush(user);
             } else {
                 throw new Exception();
             }

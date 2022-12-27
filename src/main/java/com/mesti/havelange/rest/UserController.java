@@ -23,8 +23,11 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> userById(@PathVariable Long id) {
-        User user = userService.getUserByID(id).orElseThrow(NoSuchElementException::new);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        var user = userService.getUserByID(id);
+        if(user.isEmpty())
+            throw new NoSuchElementException("No user with id ".concat(String.valueOf(id)));
+
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
     @GetMapping("/admin")
