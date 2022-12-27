@@ -1,10 +1,7 @@
 package com.mesti.havelange.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.Hibernate;
-
-import java.util.Objects;
+import lombok.Data;
+import javax.persistence.*;
 
 @Data
 @Entity(name = "users")
