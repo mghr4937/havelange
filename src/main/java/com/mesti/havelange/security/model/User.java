@@ -1,4 +1,4 @@
-package com.mesti.havelange.model;
+package com.mesti.havelange.security.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,8 +20,11 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "token", nullable = true)
+    @Column(name = "token")
     private String token;
+    @Column(name = "enabled")
+    private boolean enabled = true;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -30,12 +33,12 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return enabled;
     }
 
     @Override
@@ -45,6 +48,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

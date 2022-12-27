@@ -7,7 +7,7 @@ Rest Spring Boot app
 
 - Java 17
 - Spring Boot
-- Mongo DB
+- Postgres SQL
 - Swagger2
 
 ## Requirements
