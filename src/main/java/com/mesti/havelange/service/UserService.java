@@ -14,7 +14,11 @@ public class UserService  implements IUserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
 
+    @Override
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 
     @Override
@@ -23,7 +27,9 @@ public class UserService  implements IUserService {
     }
 
     @Override
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public Optional<User> getUserByUsername(String usernaame) {
+        return Optional.empty();
     }
+
+
 }

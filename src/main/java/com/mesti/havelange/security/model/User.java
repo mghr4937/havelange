@@ -25,7 +25,6 @@ public class User implements UserDetails {
     @Column(name = "enabled")
     private boolean enabled = true;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

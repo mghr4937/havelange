@@ -21,8 +21,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping
+    public List<User> getAll() {
+        log.info("Getting all Users");
+        return userService.getAll();
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<User> userById(@PathVariable Long id) {
+    public ResponseEntity<User> getById(@PathVariable Long id) {
         var user = userService.getUserByID(id);
         if(user.isEmpty())
             throw new NoSuchElementException("No user with id ".concat(String.valueOf(id)));
@@ -30,15 +36,15 @@ public class UserController {
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    @GetMapping("/admin")
-    public String helloAdmin() {
-        return "Hello Admin";
+    @GetMapping()
+    public ResponseEntity<User> getByUsername(@RequestParam("username") String username) {
+        var user = userService.getUserByUsername(username);
+        if(user.isEmpty())
+            throw new NoSuchElementException("No user with username ".concat(String.valueOf(username)));
+
+        return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<User> getAll() {
-        log.info("Getting all Brands");
-        return userService.getAll();
-    }
+
 
 }
