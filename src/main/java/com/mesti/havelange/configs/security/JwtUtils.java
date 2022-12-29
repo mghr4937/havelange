@@ -1,6 +1,6 @@
-package com.mesti.havelange.security;
+package com.mesti.havelange.configs.security;
 
-import com.mesti.havelange.security.model.Role;
+import com.mesti.havelange.configs.security.model.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.GrantedAuthority;

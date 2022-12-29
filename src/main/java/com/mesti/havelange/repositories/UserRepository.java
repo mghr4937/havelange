@@ -1,6 +1,6 @@
-package com.mesti.havelange.repository;
+package com.mesti.havelange.repositories;
 
-import com.mesti.havelange.security.model.User;
+import com.mesti.havelange.configs.security.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

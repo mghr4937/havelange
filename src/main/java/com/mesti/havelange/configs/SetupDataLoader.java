@@ -1,9 +1,9 @@
-package com.mesti.havelange.configuration;
+package com.mesti.havelange.configs;
 
-import com.mesti.havelange.model.Team;
-import com.mesti.havelange.repository.TeamRepository;
-import com.mesti.havelange.repository.UserRepository;
-import com.mesti.havelange.security.model.User;
+import com.mesti.havelange.models.Team;
+import com.mesti.havelange.repositories.TeamRepository;
+import com.mesti.havelange.repositories.UserRepository;
+import com.mesti.havelange.configs.security.model.User;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.mesti.havelange.security;
+package com.mesti.havelange.configs.security;
 
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

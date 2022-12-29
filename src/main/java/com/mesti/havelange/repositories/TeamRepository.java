@@ -1,6 +1,6 @@
-package com.mesti.havelange.repository;
+package com.mesti.havelange.repositories;
 
-import com.mesti.havelange.model.Team;
+import com.mesti.havelange.models.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

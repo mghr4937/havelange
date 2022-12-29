@@ -1,4 +1,4 @@
-package com.mesti.havelange.configuration;
+package com.mesti.havelange.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
-package com.mesti.havelange.rest;
+package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.model.Team;
-import com.mesti.havelange.service.TeamService;
+import com.mesti.havelange.models.Team;
+import com.mesti.havelange.services.TeamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

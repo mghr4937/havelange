@@ -1,4 +1,4 @@
-package com.mesti.havelange.model;
+package com.mesti.havelange.models;
 
 import lombok.Data;
 

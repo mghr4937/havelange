@@ -1,4 +1,4 @@
-package com.mesti.havelange.security.model;
+package com.mesti.havelange.configs.security.model;
 
 public enum Role {
     ROLE_ADMIN("ROLE_ADMIN");

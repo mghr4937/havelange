@@ -1,7 +1,7 @@
-package com.mesti.havelange.rest;
+package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.security.model.User;
-import com.mesti.havelange.service.UserService;
+import com.mesti.havelange.configs.security.model.User;
+import com.mesti.havelange.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

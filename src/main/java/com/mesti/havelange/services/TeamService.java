@@ -1,7 +1,7 @@
-package com.mesti.havelange.service;
+package com.mesti.havelange.services;
 
-import com.mesti.havelange.model.Team;
-import com.mesti.havelange.repository.TeamRepository;
+import com.mesti.havelange.models.Team;
+import com.mesti.havelange.repositories.TeamRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

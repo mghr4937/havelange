@@ -1,6 +1,6 @@
-package com.mesti.havelange.security;
+package com.mesti.havelange.configs.security;
 
-import com.mesti.havelange.repository.UserRepository;
+import com.mesti.havelange.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -1,7 +1,7 @@
-package com.mesti.havelange.service;
+package com.mesti.havelange.services;
 
-import com.mesti.havelange.repository.UserRepository;
-import com.mesti.havelange.security.model.User;
+import com.mesti.havelange.repositories.UserRepository;
+import com.mesti.havelange.configs.security.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
