@@ -23,9 +23,8 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(path="/",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Team>> getAll() {
-        log.info("Getting all teams");
         return new ResponseEntity<>(teamService.getAll(), HttpStatus.OK);
     }
 

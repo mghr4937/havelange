@@ -4,12 +4,11 @@ import com.mesti.havelange.security.model.User;
 import com.mesti.havelange.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -22,28 +21,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
+    @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
-        log.info("Getting all Users");
         return userService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getById(@PathVariable Long id) {
         var user = userService.getUserByID(id);
-        if(user.isEmpty())
-            throw new NoSuchElementException("No user with id ".concat(String.valueOf(id)));
-
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping(path="/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getByUsername(@RequestParam String username) {
-        var user = userService.getUserByUsername(username);
-        if(user.isEmpty())
-            throw new NoSuchElementException("No user with username ".concat(String.valueOf(username)));
-
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        var user = userService.getByUsername(username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 

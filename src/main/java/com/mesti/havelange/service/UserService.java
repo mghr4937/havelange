@@ -20,12 +20,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserByID(long id) {
-        return userRepository.findById(id);
+    public User getUserByID(long id) {
+        return userRepository.findById(id).orElseThrow();
     }
 
-    public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow();
     }
 
 
