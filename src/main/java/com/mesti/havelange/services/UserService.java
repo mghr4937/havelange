@@ -1,32 +1,45 @@
 package com.mesti.havelange.services;
 
+
+import com.mesti.havelange.controllers.dto.UserDTO;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.models.users.User;
+import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, EntityDtoMapper entityDtoMapper) {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAll() {
-        return userRepository.findAll();
+    public List<UserDTO> getAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> EntityDtoMapper.map(user, UserDTO.class)).collect(Collectors.toList());
     }
 
-    public User getUserByID(long id) {
-        return userRepository.findById(id).orElseThrow();
+    public UserDTO getUserByID(long id) {
+        var user = userRepository.findById(id).orElseThrow();
+        return EntityDtoMapper.map(user, UserDTO.class);
     }
 
-    public User getByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow();
+    public UserDTO getByUsername(String username) {
+        var user = userRepository.findByUsername(username).orElseThrow();
+        return EntityDtoMapper.map(user, UserDTO.class);
     }
 
+    public void disableUser(Long id){
+        var user = userRepository.findById(id).orElseThrow();
+        user.setEnabled(false);
+        userRepository.saveAndFlush(user);
+    }
 
 }

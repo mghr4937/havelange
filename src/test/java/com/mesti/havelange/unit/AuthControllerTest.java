@@ -3,7 +3,6 @@ package com.mesti.havelange.unit;
 import com.mesti.havelange.configs.security.JwtUtils;
 import com.mesti.havelange.controllers.AuthController;
 import com.mesti.havelange.controllers.dto.AuthResponse;
-import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,18 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.mesti.havelange.TestUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthControllerTest {
-    private static final String PWD = "password";
-    private static final String PWD_HASH = "$2a$10$quZzGc/lGlSVr8gu2tHTiOaR6lEqnJE06FPV9PfhPObVsXfTwuQwi";
-    private static final String TOKEN = "token";
-    private static final String TEST_USER = "test_user";
-    private static final String OTHER_USER = "test";
-    private static final String ERROR_MSG = "Wrong username or password";
+
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -42,10 +37,9 @@ public class AuthControllerTest {
     @Test
     void authSuccess() {
         // Arrange
-        User user = new User();
-        user.setUsername(TEST_USER);
-        user.setPassword(PWD_HASH);
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+        var user = getUser();
+
+        when(userRepository.findByUsername(any())).thenReturn(user);
         when(passwordEncoder.matches(PWD, PWD_HASH)).thenReturn(true);
         when(jwtUtils.getJWTToken(any())).thenReturn(TOKEN);
 
@@ -74,11 +68,9 @@ public class AuthControllerTest {
     @Test
     void authPasswordFailure() {
         // Arrange
-        User user = new User();
-        user.setUsername(TEST_USER);
-        user.setPassword(PWD_HASH);
+        var user = getUser();
 
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+        when(userRepository.findByUsername(any())).thenReturn(user);
         when(passwordEncoder.matches(OTHER_USER, PWD_HASH)).thenReturn(false);
 
         // Act
@@ -88,4 +80,6 @@ public class AuthControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals(ERROR_MSG, Objects.requireNonNull(response.getBody()).getMessage());
     }
+
+
 }

@@ -1,6 +1,6 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.models.users.User;
+import com.mesti.havelange.controllers.dto.UserDTO;
 import com.mesti.havelange.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,20 +22,27 @@ public class UserController {
     }
 
     @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAll() {
-        return userService.getAll();
+    public ResponseEntity<List<UserDTO>> getAll() {
+        var users = userService.getAll();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getById(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         var user = userService.getUserByID(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping(path="/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getByUsername(@RequestParam String username) {
+    public ResponseEntity<UserDTO> getByUsername(@RequestParam String username) {
         var user = userService.getByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path="/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.disableUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
