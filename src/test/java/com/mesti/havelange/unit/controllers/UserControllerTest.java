@@ -24,7 +24,6 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 
-    private static final long USER_ID = 1L;
     @Mock
     private UserService userService;
 
@@ -48,11 +47,11 @@ public class UserControllerTest {
     public void getUser_shouldReturnUser() {
         // given
 
-        var user = getUserDTO(USER_ID, "Test");
-        given(userService.getUserByID(USER_ID)).willReturn(user);
+        var user = getUserDTO(ID, "Test");
+        given(userService.getUserByID(ID)).willReturn(user);
 
         // when
-        ResponseEntity<UserDTO> result = userController.getById(USER_ID);
+        ResponseEntity<UserDTO> result = userController.getById(ID);
 
         // then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);

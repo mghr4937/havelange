@@ -7,6 +7,7 @@ import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,17 +25,17 @@ public class UserService {
     }
 
     public UserDTO getUserByID(long id) {
-        var user = userRepository.findById(id).orElseThrow();
+        var user = userRepository.getReferenceById(id);
         return EntityDtoMapper.map(user, UserDTO.class);
     }
 
     public UserDTO getByUsername(String username) {
-        var user = userRepository.findByUsername(username).orElseThrow();
+        var user = userRepository.findByUsername(username).orElseThrow(EntityNotFoundException::new);
         return EntityDtoMapper.map(user, UserDTO.class);
     }
 
     public void disableUser(Long id) {
-        var user = userRepository.findById(id).orElseThrow();
+        var user = userRepository.getReferenceById(id);
         user.setEnabled(false);
         userRepository.saveAndFlush(user);
     }

@@ -24,6 +24,5 @@ public class Team {
     @Column(name = "email", nullable = false)
     private String email;
     private String clubColors;
-
-//    private List<Player> squad;
+    private boolean enabled = true;
 }

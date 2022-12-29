@@ -30,6 +30,7 @@ public class TestUtils {
 
     public static Team createRandomTeam() {
         Team team = new Team();
+        team.setId(FAKER.number().randomNumber());
         team.setName(FAKER.team().name());
         team.setShortName(FAKER.team().creature());
         team.setCity(FAKER.address().city());

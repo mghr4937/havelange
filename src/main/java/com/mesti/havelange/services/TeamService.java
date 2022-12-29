@@ -6,6 +6,7 @@ import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -24,18 +25,19 @@ public class TeamService {
     }
 
     public TeamDTO getByID(long id) {
-        var team = teamRepository.findById(id).orElseThrow();
+        var team = teamRepository.getReferenceById(id);
         return EntityDtoMapper.map(team, TeamDTO.class);
 
     }
 
     public TeamDTO getByName(String name) {
-        var team = teamRepository.findByName(name).orElseThrow();
+        var team = teamRepository.findByName(name).orElseThrow(EntityNotFoundException::new);
         return EntityDtoMapper.map(team, TeamDTO.class);
     }
 
-    public void delete(Long id) {
-        var team = teamRepository.findById(id).orElseThrow();
-        teamRepository.delete(team);
+    public void disableTeam(Long id) {
+        var team = teamRepository.getReferenceById(id);
+        team.setEnabled(false);
+        teamRepository.saveAndFlush(team);
     }
 }

@@ -42,7 +42,7 @@ public class TeamController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<TeamDTO> delete(@PathVariable Long id) {
-        teamService.delete(id);
+        teamService.disableTeam(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

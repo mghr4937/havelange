@@ -10,9 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static com.mesti.havelange.utils.TestUtils.*;
@@ -57,7 +57,7 @@ public class UserServiceTest {
     public void testGetUserByID_shouldReturnUserDTO() {
         // Given
         var user = getTestUser();
-        when(userRepository.findById(ID)).thenReturn(Optional.of(user));
+        when(userRepository.getReferenceById(ID)).thenReturn(user);
 
         UserDTO expectedUserDto = getTestUserDTO();
 
@@ -69,15 +69,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserByID_shouldThrowNoSuchElementException() {
+    public void testGetUserByID_shouldThrowEntityNotFoundException() {
         // Given
-        when(userRepository.findById(ID)).thenReturn(Optional.empty());
+        when(userRepository.getReferenceById(ID)).thenThrow(EntityNotFoundException.class);
 
         // When
         Throwable thrown = catchThrowable(() -> userService.getUserByID(ID));
 
         // Then
-        assertThat(thrown).isInstanceOf(NoSuchElementException.class);
+        assertThat(thrown).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
@@ -96,16 +96,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetByUsername_shouldThrowNoSuchElementException() {
+    public void testGetByUsername_shouldThrowEntityNotFoundException() {
         // Given
         String username = OTHER_USER;
-        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+        when(userRepository.findByUsername(username)).thenThrow(EntityNotFoundException.class);
 
         // When
         Throwable thrown = catchThrowable(() -> userService.getByUsername(username));
 
         // Then
-        assertThat(thrown).isInstanceOf(NoSuchElementException.class);
+        assertThat(thrown).isInstanceOf(EntityNotFoundException.class);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class UserServiceTest {
         long userId = 1L;
 
         User user = getTestUser();
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.getReferenceById(userId)).thenReturn(user);
 
         // When
         userService.disableUser(userId);
@@ -125,16 +125,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDisableUser_shouldThrowNoSuchElementException() {
+    public void testDisableUser_shouldThrowEntityNotFoundException() {
         // Given
         long userId = 1L;
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.getReferenceById(userId)).thenThrow(EntityNotFoundException.class);
 
         // When
         Throwable thrown = catchThrowable(() -> userService.disableUser(userId));
 
         // Then
-        assertThat(thrown).isInstanceOf(NoSuchElementException.class);
+        assertThat(thrown).isInstanceOf(EntityNotFoundException.class);
     }
 
 

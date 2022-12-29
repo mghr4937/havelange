@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.NoSuchElementException;
+import javax.persistence.EntityNotFoundException;
 
 @Slf4j
 @RestController
@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthResponse> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws NoSuchElementException {
+    public ResponseEntity<AuthResponse> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {
         var user = userRepository.findByUsername(username);
 
         if (user.isEmpty() || !passwordEncoder.matches(pwd, user.get().getPassword()))
@@ -42,7 +42,5 @@ public class AuthController {
         userRepository.saveAndFlush(user.get());
 
         return new ResponseEntity<>(new AuthResponse(token, username, "Hola!"), HttpStatus.OK);
-
-
     }
 }
