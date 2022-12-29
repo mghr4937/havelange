@@ -1,6 +1,6 @@
 package com.mesti.havelange.configs.security;
 
-import com.mesti.havelange.configs.security.model.Role;
+import com.mesti.havelange.models.users.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,6 +36,6 @@ public class JwtUtils{
                     .signWith(SignatureAlgorithm.HS512,
                             MY_SECRET_KEY.getBytes()).compact();
 
-            return BEARER + token;
+            return BEARER.concat(token);
         }
 }

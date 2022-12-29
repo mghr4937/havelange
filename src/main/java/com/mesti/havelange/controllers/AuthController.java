@@ -1,5 +1,6 @@
 package com.mesti.havelange.controllers;
 
+import com.mesti.havelange.controllers.dto.AuthResponse;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.configs.security.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+    private static final String ERROR_MSG = "Wrong username or password";
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -29,17 +31,18 @@ public class AuthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws NoSuchElementException {
+    public ResponseEntity<AuthResponse> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws NoSuchElementException {
         var user = userRepository.findByUsername(username);
 
         if (user.isEmpty() || !passwordEncoder.matches(pwd, user.get().getPassword()))
-            return new ResponseEntity<>("Error: El nombre de usuario o la contraseña son incorrectos", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponse(ERROR_MSG), HttpStatus.BAD_REQUEST);
 
         String token = jwtUtils.getJWTToken(username);
         user.get().setToken(token);
         userRepository.saveAndFlush(user.get());
 
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponse(token, username, "Hola!"), HttpStatus.OK);
+
 
     }
 }

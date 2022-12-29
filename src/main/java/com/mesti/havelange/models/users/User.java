@@ -1,4 +1,4 @@
-package com.mesti.havelange.configs.security.model;
+package com.mesti.havelange.models.users;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

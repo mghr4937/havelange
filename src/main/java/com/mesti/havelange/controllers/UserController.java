@@ -1,6 +1,6 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.configs.security.model.User;
+import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
