@@ -4,16 +4,17 @@ import com.mesti.havelange.security.model.User;
 import com.mesti.havelange.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
-@RestController(MediaType.APPLICATION_JSON_VALUE)
+@RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
     private final UserService userService;
 
@@ -36,8 +37,8 @@ public class UserController {
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<User> getByUsername(@RequestParam("username") String username) {
+    @GetMapping("/search")
+    public ResponseEntity<User> getByUsername(@RequestParam String username) {
         var user = userService.getUserByUsername(username);
         if(user.isEmpty())
             throw new NoSuchElementException("No user with username ".concat(String.valueOf(username)));

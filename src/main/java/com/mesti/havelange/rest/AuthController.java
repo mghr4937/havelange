@@ -2,7 +2,9 @@ package com.mesti.havelange.rest;
 
 import com.mesti.havelange.repository.UserRepository;
 import com.mesti.havelange.security.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
+@Slf4j
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -23,23 +28,18 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping
-    public ResponseEntity<?> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) {
-        //TO-DO: check password on user auth
-        try {
-            var user = userRepository.findByUsername(username).orElseThrow(Exception::new);
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws NoSuchElementException {
+        var user = userRepository.findByUsername(username);
 
-            if (passwordEncoder.matches( pwd, user.getPassword())) {
-                String token = jwtUtils.getJWTToken(username);
-                user.setToken(token);
-                userRepository.saveAndFlush(user);
-            } else {
-                throw new Exception();
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+        if (user.isEmpty() || !passwordEncoder.matches(pwd, user.get().getPassword()))
+            return new ResponseEntity<>("Error: El nombre de usuario o la contraseña son incorrectos", HttpStatus.BAD_REQUEST);
 
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Error: El nombre de usuario o la contraseña son incorrectos");
-        }
+        String token = jwtUtils.getJWTToken(username);
+        user.get().setToken(token);
+        userRepository.saveAndFlush(user.get());
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 }

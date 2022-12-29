@@ -1,5 +1,7 @@
 package com.mesti.havelange.configuration;
 
+import com.mesti.havelange.model.Team;
+import com.mesti.havelange.repository.TeamRepository;
 import com.mesti.havelange.repository.UserRepository;
 import com.mesti.havelange.security.model.User;
 import org.springframework.context.ApplicationListener;
@@ -12,11 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
     boolean alreadySetup = false;
     private final UserRepository userRepository;
-
+    private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public SetupDataLoader(UserRepository userRepository,  PasswordEncoder passwordEncoder) {
+    public SetupDataLoader(UserRepository userRepository, TeamRepository teamRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.teamRepository = teamRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -33,6 +36,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         user.setEmail("test@test.com");
         user.setEnabled(true);
         userRepository.save(user);
+
+        Team team = new Team();
+        team.setName("Ipolitis FC");
+        team.setEmail("mail@mail.com");
+        team.setPhone("+598 99947145");
+        team.setCity("Montevideo");
+        team.setShortName("IPO");
+        team.setClubColors("Blue,White");
+        teamRepository.saveAndFlush(team);
 
         alreadySetup = true;
     }
