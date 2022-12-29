@@ -1,8 +1,8 @@
-package com.mesti.havelange.unit;
+package com.mesti.havelange.unit.controllers;
 
 import com.mesti.havelange.TestUtils;
 import com.mesti.havelange.controllers.UserController;
-import com.mesti.havelange.controllers.dto.UserDTO;
+import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

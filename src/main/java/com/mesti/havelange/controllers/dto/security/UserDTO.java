@@ -1,4 +1,4 @@
-package com.mesti.havelange.controllers.dto;
+package com.mesti.havelange.controllers.dto.security;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.controllers.dto.AuthResponse;
+import com.mesti.havelange.controllers.dto.security.AuthResponse;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.configs.security.JwtUtils;
 import lombok.extern.slf4j.Slf4j;

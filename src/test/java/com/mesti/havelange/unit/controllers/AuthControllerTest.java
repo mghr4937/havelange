@@ -1,8 +1,8 @@
-package com.mesti.havelange.unit;
+package com.mesti.havelange.unit.controllers;
 
 import com.mesti.havelange.configs.security.JwtUtils;
 import com.mesti.havelange.controllers.AuthController;
-import com.mesti.havelange.controllers.dto.AuthResponse;
+import com.mesti.havelange.controllers.dto.security.AuthResponse;
 import com.mesti.havelange.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

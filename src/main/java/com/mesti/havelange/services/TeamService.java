@@ -1,7 +1,8 @@
 package com.mesti.havelange.services;
 
-import com.mesti.havelange.models.Team;
+import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.repositories.TeamRepository;
+import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,16 +18,20 @@ public class TeamService {
         this.teamRepository = teamRepository;
     }
 
-    public List<Team> getAll() {
-        return teamRepository.findAll();
+    public List<TeamDTO> getAll() {
+        var teams = teamRepository.findAll();
+        return  EntityDtoMapper.mapAll(teams, TeamDTO.class);
     }
 
-    public Team getByID(long id) {
-        return teamRepository.findById(id).orElseThrow();
+    public TeamDTO getByID(long id) {
+        var team = teamRepository.findById(id).orElseThrow();
+        return EntityDtoMapper.map(team, TeamDTO.class);
+
     }
 
-    public Team getByName(String name) {
-        return teamRepository.findByName(name).orElseThrow();
+    public TeamDTO getByName(String name) {
+        var team = teamRepository.findByName(name).orElseThrow();
+        return EntityDtoMapper.map(team, TeamDTO.class);
     }
 
     public void delete(Long id) {

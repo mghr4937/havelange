@@ -1,6 +1,6 @@
-package com.mesti.havelange.unit;
+package com.mesti.havelange.unit.services;
 
-import com.mesti.havelange.controllers.dto.UserDTO;
+import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.services.UserService;
@@ -69,7 +69,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserByID_shouldThrowEntityNotFoundException() {
+    public void testGetUserByID_shouldThrowNoSuchElementException() {
         // Given
         when(userRepository.findById(ID)).thenReturn(Optional.empty());
 
@@ -96,7 +96,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetByUsername_shouldThrowEntityNotFoundException() {
+    public void testGetByUsername_shouldThrowNoSuchElementException() {
         // Given
         String username = OTHER_USER;
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
@@ -125,7 +125,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDisableUser_shouldThrowEntityNotFoundException() {
+    public void testDisableUser_shouldThrowNoSuchElementException() {
         // Given
         long userId = 1L;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());

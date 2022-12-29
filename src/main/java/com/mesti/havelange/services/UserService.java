@@ -1,6 +1,6 @@
 package com.mesti.havelange.services;
 
-import com.mesti.havelange.controllers.dto.UserDTO;
+import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;

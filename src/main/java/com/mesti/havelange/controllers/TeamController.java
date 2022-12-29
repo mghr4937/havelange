@@ -1,6 +1,6 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.models.Team;
+import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.services.TeamService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,24 +24,24 @@ public class TeamController {
     }
 
     @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Team>> getAll() {
+    public ResponseEntity<List<TeamDTO>> getAll() {
         return new ResponseEntity<>(teamService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Team> getById(@PathVariable Long id) {
+    public ResponseEntity<TeamDTO> getById(@PathVariable Long id) {
         var team = teamService.getByID(id);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
     @GetMapping(path="/search", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Team> getByName(@Valid @RequestParam String name) {
+    public ResponseEntity<TeamDTO> getByName(@Valid @RequestParam String name) {
         var team = teamService.getByName(name);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Team> delete(@PathVariable Long id){
+    public ResponseEntity<TeamDTO> delete(@PathVariable Long id){
         teamService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
