@@ -17,5 +17,5 @@ public class UserDTO {
     @NotEmpty
     private String password;
     private String token;
-    private boolean enabled;
+    private boolean enabled = true;
 }

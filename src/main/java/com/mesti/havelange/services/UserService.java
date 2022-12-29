@@ -1,6 +1,5 @@
 package com.mesti.havelange.services;
 
-
 import com.mesti.havelange.controllers.dto.UserDTO;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.models.users.User;
@@ -9,21 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 @Transactional
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, EntityDtoMapper entityDtoMapper) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(user -> EntityDtoMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return  EntityDtoMapper.mapAll(users, UserDTO.class);
     }
 
     public UserDTO getUserByID(long id) {

@@ -37,9 +37,9 @@ public class AuthControllerTest {
     @Test
     void authSuccess() {
         // Arrange
-        var user = getUser();
+        var user = getTestUser();
 
-        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(PWD, PWD_HASH)).thenReturn(true);
         when(jwtUtils.getJWTToken(any())).thenReturn(TOKEN);
 
@@ -68,9 +68,9 @@ public class AuthControllerTest {
     @Test
     void authPasswordFailure() {
         // Arrange
-        var user = getUser();
+        var user = getTestUser();
 
-        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
         when(passwordEncoder.matches(OTHER_USER, PWD_HASH)).thenReturn(false);
 
         // Act
