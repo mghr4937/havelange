@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.mesti.havelange.TestUtils.*;
-import static com.mesti.havelange.TestUtils.getTestUserDTO;
+import static com.mesti.havelange.utils.TestUtils.*;
+import static com.mesti.havelange.utils.TestUtils.getTestUserDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
@@ -136,8 +136,6 @@ public class UserServiceTest {
         // Then
         assertThat(thrown).isInstanceOf(NoSuchElementException.class);
     }
-
-
 
 
 }

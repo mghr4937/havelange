@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Slf4j
@@ -21,30 +22,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAll() {
         var users = userService.getAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         var user = userService.getUserByID(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping(path="/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getByUsername(@RequestParam String username) {
         var user = userService.getByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.disableUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
 
 }

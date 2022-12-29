@@ -20,7 +20,7 @@ public class TeamService {
 
     public List<TeamDTO> getAll() {
         var teams = teamRepository.findAll();
-        return  EntityDtoMapper.mapAll(teams, TeamDTO.class);
+        return EntityDtoMapper.mapAll(teams, TeamDTO.class);
     }
 
     public TeamDTO getByID(long id) {

@@ -20,7 +20,7 @@ public class UserService {
 
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
-        return  EntityDtoMapper.mapAll(users, UserDTO.class);
+        return EntityDtoMapper.mapAll(users, UserDTO.class);
     }
 
     public UserDTO getUserByID(long id) {
@@ -33,7 +33,7 @@ public class UserService {
         return EntityDtoMapper.map(user, UserDTO.class);
     }
 
-    public void disableUser(Long id){
+    public void disableUser(Long id) {
         var user = userRepository.findById(id).orElseThrow();
         user.setEnabled(false);
         userRepository.saveAndFlush(user);

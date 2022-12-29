@@ -1,4 +1,4 @@
-package com.mesti.havelange;
+package com.mesti.havelange.utils;
 
 import com.github.javafaker.Faker;
 import com.mesti.havelange.controllers.dto.security.UserDTO;

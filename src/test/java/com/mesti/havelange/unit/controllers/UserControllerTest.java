@@ -1,6 +1,6 @@
 package com.mesti.havelange.unit.controllers;
 
-import com.mesti.havelange.TestUtils;
+import com.mesti.havelange.utils.TestUtils;
 import com.mesti.havelange.controllers.UserController;
 import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.services.UserService;
@@ -13,8 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.mesti.havelange.TestUtils.*;
+import static com.mesti.havelange.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 

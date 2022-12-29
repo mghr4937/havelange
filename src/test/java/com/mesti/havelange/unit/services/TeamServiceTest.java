@@ -1,6 +1,6 @@
 package com.mesti.havelange.unit.services;
 
-import com.mesti.havelange.TestUtils;
+import com.mesti.havelange.utils.TestUtils;
 import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.TeamRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.mesti.havelange.TestUtils.*;
+import static com.mesti.havelange.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -126,7 +126,6 @@ public class TeamServiceTest {
         // Then
         assertThrows(NoSuchElementException.class, deleteAction);
     }
-
 
 
 }

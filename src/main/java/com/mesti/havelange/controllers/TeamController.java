@@ -23,7 +23,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TeamDTO>> getAll() {
         return new ResponseEntity<>(teamService.getAll(), HttpStatus.OK);
     }
@@ -34,14 +34,14 @@ public class TeamController {
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
-    @GetMapping(path="/search", produces= MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> getByName(@Valid @RequestParam String name) {
         var team = teamService.getByName(name);
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TeamDTO> delete(@PathVariable Long id){
+    public ResponseEntity<TeamDTO> delete(@PathVariable Long id) {
         teamService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
