@@ -1,4 +1,4 @@
-package com.mesti.havelange.configs.exception;
+package com.mesti.havelange.configs.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -2,6 +2,7 @@ package com.mesti.havelange.unit.controllers;
 
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.utils.TestUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -11,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.mesti.havelange.utils.TestUtils.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -33,12 +36,17 @@ public class TeamControllerTest {
         // Given
         var teams = createRandomTeams(3);
         teamRepository.saveAllAndFlush(teams);
+        log.info("Test data loaded: {}", teams);
 
-        // When
-        mockMvc.perform(get("/team"))
+        var url = UriComponentsBuilder.fromPath("/team").build().toUriString();
+
+        // Act - Realizamos la peticion GET a la URL "/team"
+        log.info("Performing GET {}", url);
+        mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(4)));
+        log.info("GET Successful, Teams Listed");
 
     }
 
@@ -47,18 +55,31 @@ public class TeamControllerTest {
     public void testGetById_shouldReturnTeamDTO() throws Exception {
         // Given
         var team = teamRepository.saveAndFlush(TestUtils.createRandomTeam());
+        log.info("Test data loaded: {}", team);
 
-        mockMvc.perform(get("/team/{id}", team.getId()))
+        var url = UriComponentsBuilder.fromPath("/team/{id}")
+                .buildAndExpand(team.getId())
+                .toUriString();
+
+        // Act - Realizamos la peticion GET a la URL "/team/{id}"
+        log.info("Performing GET {}", url);
+        mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(team.getName()))
                 .andExpect(jsonPath("$.city").value(team.getCity()));
+        log.info("GET Successful");
     }
 
     @Test
     @Transactional
     public void testGetById_shouldThrowEntityNotFoundException() throws Exception {
+        var url = UriComponentsBuilder.fromPath("/team/{id}")
+                .buildAndExpand(55)
+                .toUriString();
 
-        mockMvc.perform(get("/teams/{id}", 55))
+        // Act - Realizamos la peticion GET a la URL "/team/{id}"
+        log.info("Performing GET {}", url);
+        mockMvc.perform(get(url))
                 .andExpect(status().isNotFound());
     }
 
@@ -68,8 +89,16 @@ public class TeamControllerTest {
         // Given
         var team = TestUtils.createRandomTeam();
         teamRepository.saveAndFlush(team);
+        log.info("Test data loaded: {}", team);
 
-        mockMvc.perform(get("/team/search?name=" + team.getName()))
+        var url = UriComponentsBuilder.fromPath("/team/search")
+                .queryParam("name", team.getName())
+                .build()
+                .toUriString();
+
+        // Act - Realizamos la peticion GET a la URL "/team/{id}"
+        log.info("Performing GET {}", url);
+        mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(team.getName()))
                 .andExpect(jsonPath("$.city").value(team.getCity()));
@@ -79,10 +108,15 @@ public class TeamControllerTest {
     @Transactional
     public void testGetByName_shouldThrowEntityNotFoundException() throws Exception {
         // Given
-        String name = "Test Team FC";
+        var name = "Test Team FC";
+
+        var url = UriComponentsBuilder.fromPath("/team/search")
+                .queryParam("name", name)
+                .build()
+                .toUriString();
 
         // When
-        mockMvc.perform(get("/team/search?name=" + name))
+        mockMvc.perform(get(url))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(""));
     }

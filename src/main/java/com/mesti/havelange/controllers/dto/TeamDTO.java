@@ -12,10 +12,10 @@ import javax.validation.constraints.Size;
 public class TeamDTO {
     private Long id;
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 3)
     private String name;
     @NotBlank
-    @Size(max = 10)
+    @Size(max = 3)
     private String shortName;
     @NotBlank
     @Size(max = 100)
