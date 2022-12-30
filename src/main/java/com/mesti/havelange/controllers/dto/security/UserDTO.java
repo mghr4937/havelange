@@ -2,12 +2,14 @@ package com.mesti.havelange.controllers.dto.security;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Validated
 public class UserDTO {
     private Long id;
     private String username;

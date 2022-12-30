@@ -1,6 +1,6 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.controllers.dto.security.AuthResponse;
+import com.mesti.havelange.controllers.dto.security.AuthResponseDTO;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.configs.security.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -31,16 +31,16 @@ public class AuthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthResponse> auth(@RequestParam("username") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {
+    public ResponseEntity<AuthResponseDTO> auth(@RequestParam("username") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {
         var user = userRepository.findByUsername(username);
 
         if (user.isEmpty() || !passwordEncoder.matches(pwd, user.get().getPassword()))
-            return new ResponseEntity<>(new AuthResponse(ERROR_MSG), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new AuthResponseDTO(ERROR_MSG), HttpStatus.BAD_REQUEST);
 
         String token = jwtUtils.getJWTToken(username);
         user.get().setToken(token);
         userRepository.saveAndFlush(user.get());
 
-        return new ResponseEntity<>(new AuthResponse(token, username, "Hola!"), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDTO(token, username, "Hola!"), HttpStatus.OK);
     }
 }

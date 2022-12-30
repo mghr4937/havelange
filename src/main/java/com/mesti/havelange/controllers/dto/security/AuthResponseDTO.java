@@ -11,12 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuthResponse {
+public class AuthResponseDTO {
     private String token;
     private String username;
     private String message;
 
-    public AuthResponse(String message) {
+    public AuthResponseDTO(String message) {
         this.message = message;
     }
 }

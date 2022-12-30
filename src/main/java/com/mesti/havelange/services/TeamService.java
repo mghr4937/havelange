@@ -1,5 +1,6 @@
 package com.mesti.havelange.services;
 
+import com.mesti.havelange.controllers.dto.PlayerDTO;
 import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.TeamRepository;
@@ -29,8 +30,9 @@ public class TeamService {
 
     public TeamDTO getByID(long id) {
         var team = teamRepository.getReferenceById(id);
-        return EntityDtoMapper.map(team, TeamDTO.class);
-
+        var teamDto = EntityDtoMapper.map(team, TeamDTO.class);
+        teamDto.setPlayers(EntityDtoMapper.mapAll(team.getPlayers(), PlayerDTO.class));
+        return teamDto;
     }
 
     public TeamDTO getByName(String name) {

@@ -7,6 +7,7 @@ import org.apache.commons.text.WordUtils;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Entity(name = "teams")
@@ -29,6 +30,8 @@ public class Team {
     private String email;
     private String clubColors;
     private boolean enabled = true;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Player> players;
 
     public void setShortName(String shortName){
         this.shortName = StringUtils.truncate(shortName.toUpperCase(), 3);
