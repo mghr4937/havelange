@@ -1,6 +1,9 @@
 package com.mesti.havelange.unit.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.repositories.TeamRepository;
+import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import com.mesti.havelange.utils.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static com.mesti.havelange.utils.TestUtils.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
@@ -29,6 +33,9 @@ public class TeamControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @Transactional
@@ -121,4 +128,63 @@ public class TeamControllerTest {
                 .andExpect(content().string(""));
     }
 
+    @Test
+    @Transactional
+    public void testCreate_success() throws Exception {
+        // Given
+        TeamDTO teamDto = EntityDtoMapper.map(createRandomTeam(), TeamDTO.class);
+
+        // When
+        mockMvc.perform(post("/team")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").value(teamDto.getName()))
+                .andExpect(jsonPath("$.shortName").value(teamDto.getShortName()))
+                .andExpect(jsonPath("$.city").value(teamDto.getCity()))
+                .andExpect(jsonPath("$.phone").value(teamDto.getPhone()))
+                .andExpect(jsonPath("$.email").value(teamDto.getEmail()))
+                .andExpect(jsonPath("$.clubColors").value(teamDto.getClubColors()))
+                .andExpect(jsonPath("$.enabled").value(teamDto.isEnabled()));
+    }
+
+    @Test
+    @Transactional
+    public void testCreate_success2() throws Exception {
+        // Given
+        TeamDTO teamDto = EntityDtoMapper.map(createRandomTeam(), TeamDTO.class);
+
+        // When
+        mockMvc.perform(post("/team")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value(teamDto.getName()))
+                .andExpect(jsonPath("$.shortName").value(teamDto.getShortName()))
+                .andExpect(jsonPath("$.city").value(teamDto.getCity()))
+                .andExpect(jsonPath("$.phone").value(teamDto.getPhone()))
+                .andExpect(jsonPath("$.email").value(teamDto.getEmail()))
+                .andExpect(jsonPath("$.clubColors").value(teamDto.getClubColors()))
+                .andExpect(jsonPath("$.enabled").value(teamDto.isEnabled()));
+
+        mockMvc.perform(post("/team")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void testCreate_failure_emptyFields() throws Exception {
+        // Given
+        TeamDTO teamDto = EntityDtoMapper.map(createRandomTeam(), TeamDTO.class);
+        teamDto.setName(""); // campo vacío
+
+        // When
+        mockMvc.perform(post("/team")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isBadRequest());
+    }
 }

@@ -40,6 +40,12 @@ public class TeamController {
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<TeamDTO> save(@Valid @RequestBody TeamDTO teamDto) {
+        var createdTeam = teamService.save(teamDto);
+        return new ResponseEntity<>(createdTeam, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<TeamDTO> delete(@PathVariable Long id) {
         teamService.disableTeam(id);

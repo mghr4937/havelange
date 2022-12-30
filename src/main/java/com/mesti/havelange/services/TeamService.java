@@ -1,16 +1,19 @@
 package com.mesti.havelange.services;
 
 import com.mesti.havelange.controllers.dto.TeamDTO;
+import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
 @Transactional
+@Validated
 public class TeamService {
 
     private final TeamRepository teamRepository;
@@ -32,6 +35,12 @@ public class TeamService {
 
     public TeamDTO getByName(String name) {
         var team = teamRepository.findByName(name).orElseThrow(EntityNotFoundException::new);
+        return EntityDtoMapper.map(team, TeamDTO.class);
+    }
+
+    public TeamDTO save(TeamDTO teamDTO){
+        var team = EntityDtoMapper.map(teamDTO, Team.class);
+        team = teamRepository.save(team);
         return EntityDtoMapper.map(team, TeamDTO.class);
     }
 
