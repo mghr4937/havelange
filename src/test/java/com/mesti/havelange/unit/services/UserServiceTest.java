@@ -34,9 +34,9 @@ public class UserServiceTest {
     @Test
     public void testGetAll_shouldReturnListOfUserDTO() {
         // Given
-        var otherId = 2L;
         var user1 = getTestUser();
-        var user2 = getUser(otherId, OTHER_USER);
+        var user2 = getUser(OTHER_USER);
+        user2.setId(2L);
 
         var users = Arrays.asList(user1, user2);
         when(userRepository.findAll()).thenReturn(users);

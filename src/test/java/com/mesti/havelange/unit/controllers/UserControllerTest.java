@@ -1,75 +1,79 @@
 package com.mesti.havelange.unit.controllers;
 
-import com.mesti.havelange.utils.TestUtils;
-import com.mesti.havelange.controllers.UserController;
-import com.mesti.havelange.controllers.dto.security.UserDTO;
-import com.mesti.havelange.services.UserService;
+import com.mesti.havelange.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.mesti.havelange.utils.TestUtils.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.BDDMockito.given;
-
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserControllerTest {
 
-    @Mock
-    private UserService userService;
+    private static final String ADMIN = "admin";
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private UserRepository userRepository;
 
-    @InjectMocks
-    private UserController userController;
 
     @Test
-    public void getAllUsers_shouldReturnListOfUsers() {
-        // given
-        given(userService.getAll()).willReturn(Arrays.asList(new UserDTO(), new UserDTO()));
-
-        // when
-        ResponseEntity<List<UserDTO>> result = userController.getAll();
-
-        // then
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(result.getBody()).hasSize(2);
+    @Transactional
+    public void getAllUsers_shouldReturnListOfUsers() throws Exception {
+        userRepository.saveAndFlush(getUser(OTHER_USER));
+        mockMvc.perform(get("/user"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
-    public void getUser_shouldReturnUser() {
-        // given
-
-        var user = getUserDTO(ID, "Test");
-        given(userService.getUserByID(ID)).willReturn(user);
-
-        // when
-        ResponseEntity<UserDTO> result = userController.getById(ID);
-
-        // then
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(result.getBody()).isEqualTo(user);
+    @Transactional
+    public void getUser_shouldReturnUser() throws Exception {
+        mockMvc.perform(get("/user/{id}", ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.username").value(ADMIN));
     }
 
     @Test
-    public void getUser_shouldReturnUserByUsername() {
-        // given
-        var user = TestUtils.getTestUserDTO();
-        given(userService.getByUsername(TEST_USER)).willReturn(user);
+    @Transactional
+    public void getUser_shouldThrowEntityNotFoundException() throws Exception {
 
-        // when
-        ResponseEntity<UserDTO> result = userController.getByUsername(TEST_USER);
+        mockMvc.perform(get("/teams/{id}", 55))
+                .andExpect(status().isNotFound());
+    }
 
-        // then
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(result.getBody()).isEqualTo(user);
+    @Test
+    @Transactional
+    public void getUser_shouldReturnUserByUsername() throws Exception {
+        mockMvc.perform(get("/user/search?username=" + ADMIN))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.username").value(ADMIN));
+    }
+
+    @Test
+    @Transactional
+    public void testGetByName_shouldThrowEntityNotFoundException() throws Exception {
+        // Given
+        String name = "JUAN-ALBERTO";
+
+        // When
+        mockMvc.perform(get("/user/search?username=" + name))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
     }
 
 }

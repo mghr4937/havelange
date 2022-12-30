@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
-@RestController()
+@RestController
 @RequestMapping("/team")
 @Validated
 public class TeamController {
@@ -23,7 +23,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TeamDTO>> getAll() {
         return new ResponseEntity<>(teamService.getAll(), HttpStatus.OK);
     }

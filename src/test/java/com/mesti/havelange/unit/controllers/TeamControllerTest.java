@@ -1,111 +1,90 @@
 package com.mesti.havelange.unit.controllers;
 
-import com.mesti.havelange.controllers.TeamController;
-import com.mesti.havelange.controllers.dto.TeamDTO;
-import com.mesti.havelange.services.TeamService;
-import com.mesti.havelange.services.mapper.EntityDtoMapper;
+import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.utils.TestUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static com.mesti.havelange.utils.TestUtils.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.List;
-
-import static org.mockito.Mockito.when;
-
-@Slf4j
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class TeamControllerTest {
-    @Mock
-    TeamService teamService;
 
-    @InjectMocks
-    TeamController teamController;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Test
-    public void testGetAll_shouldReturnListOfTeamDTO() {
+    @Transactional
+    public void testGetAll_shouldReturnListOfTeamDTO() throws Exception {
         // Given
         var teams = createRandomTeams(3);
-        var expectedTeamDtos = EntityDtoMapper.mapAll(teams, TeamDTO.class);
-        when(teamService.getAll()).thenReturn(expectedTeamDtos);
+        teamRepository.saveAllAndFlush(teams);
 
         // When
-        ResponseEntity<List<TeamDTO>> response = teamController.getAll();
+        mockMvc.perform(get("/team"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(4)));
 
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(expectedTeamDtos);
     }
 
     @Test
-    public void testGetById_shouldReturnTeamDTO() {
+    @Transactional
+    public void testGetById_shouldReturnTeamDTO() throws Exception {
+        // Given
+        var team = teamRepository.saveAndFlush(TestUtils.createRandomTeam());
+
+        mockMvc.perform(get("/team/{id}", team.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(team.getName()))
+                .andExpect(jsonPath("$.city").value(team.getCity()));
+    }
+
+    @Test
+    @Transactional
+    public void testGetById_shouldThrowEntityNotFoundException() throws Exception {
+
+        mockMvc.perform(get("/teams/{id}", 55))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void testGetByName_shouldReturnTeamDTO() throws Exception {
         // Given
         var team = TestUtils.createRandomTeam();
-        TeamDTO expectedTeamDto = EntityDtoMapper.map(team, TeamDTO.class);
-        when(teamService.getByID(ID)).thenReturn(expectedTeamDto);
+        teamRepository.saveAndFlush(team);
 
-        // When
-        ResponseEntity<TeamDTO> response = teamController.getById(ID);
-
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(expectedTeamDto);
+        mockMvc.perform(get("/team/search?name=" + team.getName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(team.getName()))
+                .andExpect(jsonPath("$.city").value(team.getCity()));
     }
 
     @Test
-    public void testGetById_shouldThrowEntityNotFoundException() {
-        // Given
-        when(teamService.getByID(ID)).thenThrow(EntityNotFoundException.class);
-
-        try {
-            // When
-            var response = teamController.getById(ID);
-            // Then
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-            //assertThat(response.getBody()).is();
-        } catch (EntityNotFoundException e) {}
-    }
-
-    @Test
-    public void testGetByName_shouldReturnTeamDTO() {
-        // Given
-        var team = TestUtils.createRandomTeam();
-        TeamDTO expectedTeamDto = EntityDtoMapper.map(team, TeamDTO.class);
-
-        when(teamService.getByName(team.getName())).thenReturn(expectedTeamDto);
-
-        // When
-        ResponseEntity<TeamDTO> response = teamController.getByName(team.getName());
-
-        // Then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo(expectedTeamDto);
-    }
-
-    @Test
-    public void testGetByName_shouldThrowEntityNotFoundException() {
+    @Transactional
+    public void testGetByName_shouldThrowEntityNotFoundException() throws Exception {
         // Given
         String name = "Test Team FC";
-        when(teamService.getByName(name)).thenThrow(EntityNotFoundException.class);
 
-        try {
-            // When
-            ResponseEntity<TeamDTO> response = teamController.getByName(name);
-
-            // Then
-            assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-            assertThat(response.getBody()).isNull();
-        } catch (EntityNotFoundException e) {}
+        // When
+        mockMvc.perform(get("/team/search?name=" + name))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
     }
 
 }

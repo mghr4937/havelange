@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 public class TestUtils {
     public static final String PWD = "password";
     public static final String TEST_USER = "test_user";
-    public static final String OTHER_USER = "test";
+    public static final String OTHER_USER = "other_user";
     private static final String EMAIL = "mail@mail.com";
     public static final long ID = 1L;
 
@@ -49,9 +49,9 @@ public class TestUtils {
         return user;
     }
 
-    public static User getUser(long id, String username) {
+    public static User getUser(String username) {
         var user = new User();
-        user.setId(id);
+
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(PWD));
         user.setEmail(EMAIL);
