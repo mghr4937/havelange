@@ -68,7 +68,7 @@ public class UserControllerTest {
     @Transactional
     public void getUser_shouldThrowEntityNotFoundException() throws Exception {
         var url = UriComponentsBuilder.fromPath("/user/{id}")
-                .buildAndExpand(55)
+                .buildAndExpand(FAKER.number().randomNumber())
                 .toUriString();
 
         // Act - Realizamos la peticion GET a la URL "/user/{id}"

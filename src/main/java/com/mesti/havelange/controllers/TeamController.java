@@ -51,4 +51,11 @@ public class TeamController {
         teamService.disableTeam(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TeamDTO> update(@PathVariable Long id, @Valid @RequestBody TeamDTO teamDto) {
+        var updatedTeam = teamService.update(id, teamDto);
+
+        return new ResponseEntity<>(updatedTeam,  HttpStatus.OK);
+    }
 }

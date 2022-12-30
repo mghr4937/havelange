@@ -44,6 +44,22 @@ public class TeamService {
         return EntityDtoMapper.map(team, TeamDTO.class);
     }
 
+    public TeamDTO update(long id, TeamDTO teamDTO){
+        var existingTeam = teamRepository.getReferenceById(id);
+
+        // Actualizar los campos del equipo
+        existingTeam.setName(teamDTO.getName());
+        existingTeam.setShortName(teamDTO.getShortName());
+        existingTeam.setCity(teamDTO.getCity());
+        existingTeam.setPhone(teamDTO.getPhone());
+        existingTeam.setEmail(teamDTO.getEmail());
+        existingTeam.setClubColors(teamDTO.getClubColors());
+        existingTeam.setEnabled(teamDTO.isEnabled());
+
+        existingTeam = teamRepository.save(existingTeam);
+        return EntityDtoMapper.map(existingTeam, TeamDTO.class);
+    }
+
     public void disableTeam(Long id) {
         var team = teamRepository.getReferenceById(id);
         team.setEnabled(false);

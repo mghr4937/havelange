@@ -19,8 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.mesti.havelange.utils.TestUtils.*;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @Slf4j
@@ -81,7 +80,7 @@ public class TeamControllerTest {
     @Transactional
     public void testGetById_shouldThrowEntityNotFoundException() throws Exception {
         var url = UriComponentsBuilder.fromPath("/team/{id}")
-                .buildAndExpand(55)
+                .buildAndExpand(FAKER.number().randomNumber())
                 .toUriString();
 
         // Act - Realizamos la peticion GET a la URL "/team/{id}"
@@ -151,7 +150,7 @@ public class TeamControllerTest {
 
     @Test
     @Transactional
-    public void testCreate_success2() throws Exception {
+    public void testCreate_failure_uniqueConstraint() throws Exception {
         // Given
         TeamDTO teamDto = EntityDtoMapper.map(createRandomTeam(), TeamDTO.class);
 
@@ -179,12 +178,66 @@ public class TeamControllerTest {
     public void testCreate_failure_emptyFields() throws Exception {
         // Given
         TeamDTO teamDto = EntityDtoMapper.map(createRandomTeam(), TeamDTO.class);
-        teamDto.setName(""); // campo vacío
+        teamDto.setName("");
 
         // When
         mockMvc.perform(post("/team")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teamDto)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void testUpdate_success() throws Exception {
+    // Given
+        var team = TestUtils.createRandomTeam();
+        team = teamRepository.saveAndFlush(team);
+        log.info("Test data loaded: {}", team);
+
+        var url = UriComponentsBuilder.fromPath("/team/{id}")
+                .buildAndExpand(team.getId())
+                .toUriString();
+
+        TeamDTO teamDto = EntityDtoMapper.map(team, TeamDTO.class);
+        teamDto.setName("Liverpool FC");
+        teamDto.setCity("Montevideo");
+
+        // When
+        mockMvc.perform(put(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(teamDto.getName()))
+                .andExpect(jsonPath("$.shortName").value(team.getShortName()))
+                .andExpect(jsonPath("$.city").value(teamDto.getCity()))
+                .andExpect(jsonPath("$.phone").value(team.getPhone()))
+                .andExpect(jsonPath("$.email").value(team.getEmail()))
+                .andExpect(jsonPath("$.clubColors").value(team.getClubColors()));
+
+    }
+
+    @Test
+    @Transactional
+    public void testUpdate_failure_teamNotFound() throws Exception {
+        // Given
+        var team = TestUtils.createRandomTeam();
+        team = teamRepository.saveAndFlush(team);
+        log.info("Test data loaded: {}", team);
+
+        var url = UriComponentsBuilder.fromPath("/team/{id}")
+                .buildAndExpand(FAKER.number().randomNumber())
+                .toUriString();
+
+        TeamDTO teamDto = EntityDtoMapper.map(team, TeamDTO.class);
+        teamDto.setName("Liverpool FC");
+        teamDto.setCity("Montevideo");
+
+        // When
+        mockMvc.perform(put(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(teamDto)))
+                .andExpect(status().isNotFound());
+
     }
 }
