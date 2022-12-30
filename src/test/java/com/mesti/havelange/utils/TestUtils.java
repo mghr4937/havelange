@@ -31,7 +31,7 @@ public class TestUtils {
         Team team = new Team();
         team.setId(FAKER.number().randomNumber());
         team.setName(FAKER.team().name());
-        team.setShortName(team.getName());
+        team.setShortname(team.getName());
         team.setCity(FAKER.address().city());
         team.setPhone(FAKER.phoneNumber().phoneNumber());
         team.setEmail(FAKER.internet().emailAddress());

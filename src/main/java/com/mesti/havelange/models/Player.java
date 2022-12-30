@@ -12,7 +12,7 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 @Data
-@Entity
+@Entity(name = "players")
 @Validated
 public class Player {
 

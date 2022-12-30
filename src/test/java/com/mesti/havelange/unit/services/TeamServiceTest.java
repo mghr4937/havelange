@@ -1,5 +1,6 @@
 package com.mesti.havelange.unit.services;
 
+import com.mesti.havelange.repositories.PlayerRepository;
 import com.mesti.havelange.utils.TestUtils;
 import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.models.Team;
@@ -13,12 +14,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static com.mesti.havelange.utils.TestUtils.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +30,8 @@ public class TeamServiceTest {
 
     @Mock
     private TeamRepository teamRepository;
+    @Mock
+    private PlayerRepository playerRepository;
 
     @InjectMocks
     private TeamService teamService;
@@ -36,6 +41,7 @@ public class TeamServiceTest {
         // Given
         List<Team> teams = TestUtils.createRandomTeams(5);
         when(teamRepository.findAll()).thenReturn(teams);
+        when(playerRepository.findByTeamId(anyLong())).thenReturn(null);
 
         List<TeamDTO> expectedTeamDtos = EntityDtoMapper.mapAll(teams, TeamDTO.class);
 

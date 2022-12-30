@@ -44,16 +44,18 @@ public class UserControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(1)));
         log.info("GET Successful, Users Listed");
     }
 
     @Test
     @Transactional
     public void getUser_shouldReturnUser() throws Exception {
+        var user = userRepository.saveAndFlush(getUser(ADMIN));
+        log.info("Test data loaded: {}", user);
 
         var url = UriComponentsBuilder.fromPath("/user/{id}")
-                .buildAndExpand(ID)
+                .buildAndExpand(user.getId())
                 .toUriString();
 
         // Act - Realizamos la peticion GET a la URL "/user/{id}"
@@ -80,6 +82,9 @@ public class UserControllerTest {
     @Test
     @Transactional
     public void getUser_shouldReturnUserByUsername() throws Exception {
+        var user = userRepository.saveAndFlush(getUser(ADMIN));
+        log.info("Test data loaded: {}", user);
+
         var url = UriComponentsBuilder.fromPath("/user/search")
                 .queryParam("username", ADMIN)
                 .build()

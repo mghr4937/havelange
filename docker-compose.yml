@@ -8,7 +8,7 @@ services:
       - "8080:8080"
     depends_on:
       - havelange-db
-  dbpostgresql:
+  havelange-db:
     image: postgres
     ports:
       - "5432:5432"

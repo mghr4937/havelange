@@ -2,7 +2,6 @@ package com.mesti.havelange.models;
 
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.WordUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -18,9 +17,9 @@ public class Team {
     private Long id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @Column(name = "shortName", nullable = false, unique = true)
+    @Column(name = "shortname")
     @Size(max = 3)
-    private String shortName;
+    private String shortname;
     @Column(name = "city", nullable = false)
     private String city;
     @Column(name = "phone", nullable = false)
@@ -28,16 +27,13 @@ public class Team {
     @Email
     @Column(name = "email", nullable = false)
     private String email;
+    @Column(name = "club_colors")
     private String clubColors;
     private boolean enabled = true;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Player> players;
 
-    public void setShortName(String shortName){
-        this.shortName = StringUtils.truncate(shortName.toUpperCase(), 3);
-    }
-
-    public void setName(String name){
-        this.name =  WordUtils.capitalize(name);
+    public void setShortname(String shortname) {
+        this.shortname = StringUtils.truncate(shortname, 3);
     }
 }
