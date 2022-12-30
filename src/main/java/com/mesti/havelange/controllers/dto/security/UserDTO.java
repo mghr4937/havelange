@@ -14,8 +14,6 @@ public class UserDTO {
     @Email
     @NotEmpty
     private String email;
-    @NotEmpty
-    private String password;
     private String token;
     private boolean enabled = true;
 }

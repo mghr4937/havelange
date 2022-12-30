@@ -4,6 +4,8 @@ import com.github.javafaker.Faker;
 import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.models.Team;
 import com.mesti.havelange.models.users.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,16 +13,13 @@ import java.util.stream.IntStream;
 
 public class TestUtils {
     public static final String PWD = "password";
-    public static final String PWD_HASH = "$2a$10$quZzGc/lGlSVr8gu2tHTiOaR6lEqnJE06FPV9PfhPObVsXfTwuQwi";
-    public static final String TOKEN = "token";
     public static final String TEST_USER = "test_user";
     public static final String OTHER_USER = "test";
-    public static final String ERROR_MSG = "Wrong username or password";
-
     private static final String EMAIL = "mail@mail.com";
     public static final long ID = 1L;
 
     public static final Faker FAKER = new Faker();
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static List<Team> createRandomTeams(int count) {
         return IntStream.range(0, count)
@@ -44,7 +43,7 @@ public class TestUtils {
         var user = new User();
         user.setId(ID);
         user.setUsername(TEST_USER);
-        user.setPassword(PWD_HASH);
+        user.setPassword(passwordEncoder.encode(PWD));
         user.setEmail(EMAIL);
 
         return user;
@@ -54,7 +53,7 @@ public class TestUtils {
         var user = new User();
         user.setId(id);
         user.setUsername(username);
-        user.setPassword(PWD_HASH);
+        user.setPassword(passwordEncoder.encode(PWD));
         user.setEmail(EMAIL);
 
         return user;
@@ -64,7 +63,6 @@ public class TestUtils {
         var user = new UserDTO();
         user.setId(id);
         user.setUsername(username);
-        user.setPassword(PWD_HASH);
         user.setEmail(EMAIL);
 
         return user;
@@ -74,7 +72,6 @@ public class TestUtils {
         var user = new UserDTO();
         user.setId(ID);
         user.setUsername(TEST_USER);
-        user.setPassword(PWD_HASH);
         user.setEmail(EMAIL);
 
         return user;

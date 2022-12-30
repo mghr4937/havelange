@@ -4,6 +4,7 @@ import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.services.UserService;
+import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.mesti.havelange.utils.TestUtils.*;
-import static com.mesti.havelange.utils.TestUtils.getTestUserDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
@@ -41,8 +41,8 @@ public class UserServiceTest {
         var users = Arrays.asList(user1, user2);
         when(userRepository.findAll()).thenReturn(users);
 
-        var userDto1 = getTestUserDTO();
-        var userDto2 = getUserDTO(otherId, OTHER_USER);
+        var userDto1 = EntityDtoMapper.map(user1, UserDTO.class);
+        var userDto2 = EntityDtoMapper.map(user2, UserDTO.class);
 
         List<UserDTO> expectedUserDtos = Arrays.asList(userDto1, userDto2);
 
@@ -59,7 +59,7 @@ public class UserServiceTest {
         var user = getTestUser();
         when(userRepository.getReferenceById(ID)).thenReturn(user);
 
-        UserDTO expectedUserDto = getTestUserDTO();
+        var expectedUserDto = EntityDtoMapper.map(user, UserDTO.class);
 
         // When
         UserDTO userDto = userService.getUserByID(ID);
@@ -86,7 +86,7 @@ public class UserServiceTest {
         var user = getTestUser();
         when(userRepository.findByUsername(TEST_USER)).thenReturn(Optional.of(user));
 
-        var expectedUserDto = getTestUserDTO();
+        var expectedUserDto = EntityDtoMapper.map(user, UserDTO.class);
 
         // When
         UserDTO userDto = userService.getByUsername(TEST_USER);

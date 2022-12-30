@@ -1,6 +1,5 @@
 package com.mesti.havelange.configs.security;
 
-import com.mesti.havelange.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,11 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/swagger-ui/**"
     };
-    private final UserRepository userRepository;
-
-    public SecurityConfig(UserRepository userService) {
-        this.userRepository = userService;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

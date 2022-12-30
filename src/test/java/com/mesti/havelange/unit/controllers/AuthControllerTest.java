@@ -1,84 +1,71 @@
 package com.mesti.havelange.unit.controllers;
 
-import com.mesti.havelange.configs.security.JwtUtils;
-import com.mesti.havelange.controllers.AuthController;
-import com.mesti.havelange.controllers.dto.security.AuthResponse;
 import com.mesti.havelange.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Objects;
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static com.mesti.havelange.utils.TestUtils.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class AuthControllerTest {
-
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
     private UserRepository userRepository;
-    @Mock
-    private JwtUtils jwtUtils;
-    @Mock
-    private PasswordEncoder passwordEncoder;
-    @InjectMocks
-    private AuthController authController;
-
 
     @Test
-    void authSuccess() {
+    void authSuccess() throws Exception {
         // Arrange
         var user = getTestUser();
-
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(PWD, PWD_HASH)).thenReturn(true);
-        when(jwtUtils.getJWTToken(any())).thenReturn(TOKEN);
+        userRepository.saveAndFlush(user);
 
         // Act
-        ResponseEntity<AuthResponse> response = authController.auth(TEST_USER, PWD);
-
-        // Assert
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(TOKEN, Objects.requireNonNull(response.getBody()).getToken());
-        assertEquals(TEST_USER, response.getBody().getUsername());
+        mockMvc.perform(post("/auth")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("username", TEST_USER)
+                        .param("password", PWD))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andExpect(jsonPath("$.username").value(TEST_USER));
     }
 
     @Test
-    void authUserFailure() {
-        // Arrange
-        when(userRepository.findByUsername(any())).thenReturn(Optional.empty());
-
+    void authUserFailure() throws Exception {
         // Act
-        ResponseEntity<AuthResponse> response = authController.auth(OTHER_USER, PWD);
+        mockMvc.perform(post("/auth")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("username", TEST_USER)
+                        .param("password", PWD))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").exists());
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(ERROR_MSG, Objects.requireNonNull(response.getBody()).getMessage());
     }
 
     @Test
-    void authPasswordFailure() {
+    void authPasswordFailure() throws Exception {
         // Arrange
         var user = getTestUser();
-
-        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(OTHER_USER, PWD_HASH)).thenReturn(false);
+        userRepository.saveAndFlush(user);
 
         // Act
-        ResponseEntity<AuthResponse> response = authController.auth(TEST_USER, OTHER_USER);
+        mockMvc.perform(post("/auth")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("username", TEST_USER)
+                        .param("password", OTHER_USER))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$").exists());
 
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(ERROR_MSG, Objects.requireNonNull(response.getBody()).getMessage());
     }
 
 

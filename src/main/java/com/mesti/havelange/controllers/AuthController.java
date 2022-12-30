@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthResponse> auth(@RequestParam("user") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {
+    public ResponseEntity<AuthResponse> auth(@RequestParam("username") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {
         var user = userRepository.findByUsername(username);
 
         if (user.isEmpty() || !passwordEncoder.matches(pwd, user.get().getPassword()))

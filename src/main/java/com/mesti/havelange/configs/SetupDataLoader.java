@@ -2,8 +2,8 @@ package com.mesti.havelange.configs;
 
 import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.TeamRepository;
-import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.models.users.User;
+import com.mesti.havelange.repositories.UserRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +35,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         user.setPassword(passwordEncoder.encode("test"));
         user.setEmail("test@test.com");
         user.setEnabled(true);
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Team team = new Team();
         team.setName("Ipolitis FC");
