@@ -6,7 +6,7 @@ Rest Spring Boot app
 ## Tech Stack
 
 - Java 17
-- Spring Boot
+- Spring Boot v2.7.5
 - Postgres SQL
 - Swagger2
 
@@ -16,6 +16,6 @@ For building and running the application you need:
 
 - [Maven 3.8.6](https://maven.apache.org/download.cgi)
 
-## Actuator
+## Swagger UI
 
-[http://localhost:9095/](http://localhost:9095/)
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
