@@ -13,16 +13,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
-    boolean alreadySetup = true;
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
-    private  final PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
+    boolean alreadySetup = true;
 
     public SetupDataLoader(UserRepository userRepository, TeamRepository teamRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -58,7 +56,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         player.setTeam(team);
         player.setName("Rogelio");
         player.setShirtNumber(12);
-        player.setDateOfBirth(LocalDate.of(1992,10,5));
+        player.setDateOfBirth(LocalDate.of(1992, 10, 5));
         player.setIdentityId("4.111.123-5");
         playerRepository.saveAndFlush(player);
 

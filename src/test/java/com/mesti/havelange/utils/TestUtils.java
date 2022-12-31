@@ -15,10 +15,9 @@ public class TestUtils {
     public static final String PWD = "password";
     public static final String TEST_USER = "test_user";
     public static final String OTHER_USER = "other_user";
-    private static final String EMAIL = "mail@mail.com";
     public static final long ID = 1L;
-
     public static final Faker FAKER = new Faker();
+    private static final String EMAIL = "mail@mail.com";
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public static List<Team> createRandomTeams(int count) {

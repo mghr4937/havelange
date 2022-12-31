@@ -1,6 +1,5 @@
 package com.mesti.havelange.services;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +9,7 @@ import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.repositories.PlayerRepository;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;
+
 import java.util.List;
 
 @Service

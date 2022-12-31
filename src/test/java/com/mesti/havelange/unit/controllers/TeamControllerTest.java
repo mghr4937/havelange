@@ -190,7 +190,7 @@ public class TeamControllerTest {
     @Test
     @Transactional
     public void testUpdate_success() throws Exception {
-    // Given
+        // Given
         var team = TestUtils.createRandomTeam();
         team = teamRepository.saveAndFlush(team);
         log.info("Test data loaded: {}", team);

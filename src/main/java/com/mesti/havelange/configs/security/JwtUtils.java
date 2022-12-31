@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class JwtUtils{
+public class JwtUtils {
 
     private static final String BEARER = "Bearer ";
     private static final String MY_SECRET_KEY = "mySecretKey";
@@ -21,21 +21,21 @@ public class JwtUtils{
 
     public String getJWTToken(String username) {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                    .commaSeparatedStringToAuthorityList(Role.ROLE_ADMIN.getDisplayName());
+                .commaSeparatedStringToAuthorityList(Role.ROLE_ADMIN.getDisplayName());
 
-            String token = Jwts
-                    .builder()
-                    .setId(SOFTTEK_JWT)
-                    .setSubject(username)
-                    .claim(AUTHORITIES,
-                            grantedAuthorities.stream()
-                                    .map(GrantedAuthority::getAuthority)
-                                    .collect(Collectors.toList()))
-                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                    .signWith(SignatureAlgorithm.HS512,
-                            MY_SECRET_KEY.getBytes()).compact();
+        String token = Jwts
+                .builder()
+                .setId(SOFTTEK_JWT)
+                .setSubject(username)
+                .claim(AUTHORITIES,
+                        grantedAuthorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .signWith(SignatureAlgorithm.HS512,
+                        MY_SECRET_KEY.getBytes()).compact();
 
-            return BEARER.concat(token);
-        }
+        return BEARER.concat(token);
+    }
 }

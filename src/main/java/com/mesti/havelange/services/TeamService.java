@@ -40,7 +40,7 @@ public class TeamService {
     public TeamDTO getByID(long id) {
         var team = teamRepository.getReferenceById(id);
         var teamDto = EntityDtoMapper.map(team, TeamDTO.class);
-        if (teamDto.getPlayers()!= null)
+        if (teamDto.getPlayers() != null)
             teamDto.setPlayers(EntityDtoMapper.mapAll(team.getPlayers(), PlayerDTO.class));
 
         return teamDto;

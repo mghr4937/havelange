@@ -9,8 +9,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class HavelangeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(HavelangeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(HavelangeApplication.class, args);
+    }
 
 }
