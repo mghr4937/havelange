@@ -3,6 +3,7 @@ package com.mesti.havelange.controllers;
 import com.mesti.havelange.controllers.dto.security.AuthResponseDTO;
 import com.mesti.havelange.repositories.UserRepository;
 import com.mesti.havelange.configs.security.JwtUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,17 +19,12 @@ import javax.persistence.EntityNotFoundException;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
     private static final String ERROR_MSG = "Wrong username or password";
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-
-    public AuthController(JwtUtils jwtUtils, PasswordEncoder passwordEncoder, UserRepository userRepository) {
-        this.jwtUtils = jwtUtils;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthResponseDTO> auth(@RequestParam("username") String username, @RequestParam("password") String pwd) throws EntityNotFoundException {

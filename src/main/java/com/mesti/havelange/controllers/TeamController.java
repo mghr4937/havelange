@@ -2,6 +2,7 @@ package com.mesti.havelange.controllers;
 
 import com.mesti.havelange.controllers.dto.TeamDTO;
 import com.mesti.havelange.services.TeamService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,13 +16,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/team")
+@RequiredArgsConstructor
 @Validated
 public class TeamController {
     private final TeamService teamService;
-
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TeamDTO>> getAll() {

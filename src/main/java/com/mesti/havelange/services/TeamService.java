@@ -6,6 +6,7 @@ import com.mesti.havelange.models.Team;
 import com.mesti.havelange.repositories.PlayerRepository;
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -15,16 +16,12 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 @Validated
 public class TeamService {
 
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
-
-    public TeamService(TeamRepository teamRepository, PlayerRepository playerRepository) {
-        this.teamRepository = teamRepository;
-        this.playerRepository = playerRepository;
-    }
 
     public List<TeamDTO> getAll() {
         // obtén todos los equipos

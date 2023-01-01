@@ -1,5 +1,6 @@
 package com.mesti.havelange.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -15,15 +16,11 @@ import java.util.List;
 @Service
 @Transactional
 @Validated
+@RequiredArgsConstructor
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
-
-    public PlayerService(PlayerRepository playerRepository, TeamRepository teamRepository) {
-        this.playerRepository = playerRepository;
-        this.teamRepository = teamRepository;
-    }
 
     public List<PlayerDTO> getAll() {
         var players = playerRepository.findAll();

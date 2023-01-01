@@ -2,6 +2,7 @@ package com.mesti.havelange.controllers;
 
 import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,13 +15,11 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
+
 @Validated
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAll() {
