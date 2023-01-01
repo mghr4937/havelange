@@ -4,7 +4,8 @@ CREATE TABLE users (
   email varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
   token varchar(255),
-  enabled boolean NOT NULL DEFAULT true
+  enabled boolean NOT NULL DEFAULT true,
+  last_request_date date
 );
 
 CREATE UNIQUE INDEX uq_users_username ON users (username);
@@ -27,6 +28,7 @@ CREATE UNIQUE INDEX uq_teams_email ON teams (email);
 CREATE TABLE players (
 id bigserial PRIMARY KEY,
 name varchar(255) NOT NULL,
+last_name varchar(255) NOT NULL,
 identity_id varchar(255) NOT NULL,
 gender varchar(255),
 date_of_birth date NOT NULL,

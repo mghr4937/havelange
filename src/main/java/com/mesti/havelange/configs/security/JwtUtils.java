@@ -23,6 +23,8 @@ public class JwtUtils {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList(Role.ROLE_ADMIN.getDisplayName());
 
+        Date expirationDate = new Date(System.currentTimeMillis() + (30 * 60 * 1000));
+
         String token = Jwts
                 .builder()
                 .setId(SOFTTEK_JWT)
@@ -32,7 +34,7 @@ public class JwtUtils {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512,
                         MY_SECRET_KEY.getBytes()).compact();
 

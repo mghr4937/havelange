@@ -20,7 +20,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
-    boolean alreadySetup = true;
+    boolean alreadySetup = false;
 
     public SetupDataLoader(UserRepository userRepository, TeamRepository teamRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -55,6 +55,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Player player = new Player();
         player.setTeam(team);
         player.setName("Rogelio");
+        player.setLastName("Roldan");
         player.setShirtNumber(12);
         player.setDateOfBirth(LocalDate.of(1992, 10, 5));
         player.setIdentityId("4.111.123-5");

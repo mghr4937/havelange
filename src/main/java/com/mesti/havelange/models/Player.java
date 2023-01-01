@@ -21,6 +21,8 @@ public class Player {
     private Long id;
     @NotBlank
     private String name;
+    @NotBlank
+    private String lastName;
     @NotNull
     private LocalDate dateOfBirth;
     @Min(value = 0)

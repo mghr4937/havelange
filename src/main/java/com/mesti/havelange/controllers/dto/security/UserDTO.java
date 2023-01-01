@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -18,4 +19,5 @@ public class UserDTO {
     private String email;
     private String token;
     private boolean enabled = true;
+    private LocalDateTime lastRequestDate;
 }

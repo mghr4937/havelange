@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Data
@@ -26,6 +27,8 @@ public class User implements UserDetails {
     private String token;
     @Column(name = "enabled")
     private boolean enabled = true;
+    @Column(name = "last_request_date")
+    private LocalDateTime lastRequestDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

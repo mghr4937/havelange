@@ -19,6 +19,9 @@ public class PlayerDTO {
     @Size(max = 128)
     private String name;
     @NotBlank
+    @Size(max = 128)
+    private String lastName;
+    @NotBlank
     @Size(max = 30)
     private String phone;
     @NotNull
@@ -26,9 +29,19 @@ public class PlayerDTO {
     @Min(1)
     private int shirtNumber;
     private int age;
-    private TeamDTO team;
+    private PlayerTeamDTO team;
     private boolean enabled = true;
     private String gender;
     @Size(max = 128)
     private String identityId;
+}
+
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Validated
+class PlayerTeamDTO {
+    private Long id;
+    @NotBlank
+    private String name;
+    private boolean enabled = true;
 }
