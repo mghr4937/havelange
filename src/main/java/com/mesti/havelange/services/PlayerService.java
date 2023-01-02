@@ -44,7 +44,7 @@ public class PlayerService {
     public void disablePlayer(Long id) {
         var player = playerRepository.getReferenceById(id);
         player.setEnabled(false);
-        playerRepository.saveAndFlush(player);
+        playerRepository.save(player);
     }
 
 }

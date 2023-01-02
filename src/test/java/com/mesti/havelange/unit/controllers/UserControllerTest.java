@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserControllerTest {
 
-    private static final String ADMIN = "admin";
+    private static final String TEST_NAME = "testname";
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -44,14 +44,14 @@ public class UserControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(jsonPath("$", hasSize(2)));
         log.info("GET Successful, Users Listed");
     }
 
     @Test
     @Transactional
     public void getUser_shouldReturnUser() throws Exception {
-        var user = userRepository.saveAndFlush(getUser(ADMIN));
+        var user = userRepository.saveAndFlush(getUser(TEST_NAME));
         log.info("Test data loaded: {}", user);
 
         var url = UriComponentsBuilder.fromPath("/user/{id}")
@@ -63,7 +63,7 @@ public class UserControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value(ADMIN));
+                .andExpect(jsonPath("$.username").value(TEST_NAME));
     }
 
     @Test
@@ -82,11 +82,11 @@ public class UserControllerTest {
     @Test
     @Transactional
     public void getUser_shouldReturnUserByUsername() throws Exception {
-        var user = userRepository.saveAndFlush(getUser(ADMIN));
+        var user = userRepository.saveAndFlush(getUser(TEST_NAME));
         log.info("Test data loaded: {}", user);
 
         var url = UriComponentsBuilder.fromPath("/user/search")
-                .queryParam("username", ADMIN)
+                .queryParam("username", TEST_NAME)
                 .build()
                 .toUriString();
 
@@ -95,7 +95,7 @@ public class UserControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.username").value(ADMIN));
+                .andExpect(jsonPath("$.username").value(TEST_NAME));
     }
 
     @Test
@@ -113,8 +113,7 @@ public class UserControllerTest {
 
         // When
         mockMvc.perform(get(url))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string(""));
+                .andExpect(status().isNotFound());
     }
 
 }

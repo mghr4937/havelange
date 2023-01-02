@@ -35,13 +35,3 @@ public class PlayerDTO {
     @Size(max = 128)
     private String identityId;
 }
-
-@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Validated
-class PlayerTeamDTO {
-    private Long id;
-    @NotBlank
-    private String name;
-    private boolean enabled = true;
-}
