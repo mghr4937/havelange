@@ -36,4 +36,20 @@ public class Team {
     public void setShortname(String shortname) {
         this.shortname = StringUtils.truncate(shortname, 3);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Team{")
+                .append("id=").append(id)
+                .append(", name='").append(name).append("'")
+                .append(", shortname='").append(shortname).append("'")
+                .append(", city='").append(city).append("'")
+                .append(", phone='").append(phone).append("'")
+                .append(", email='").append(email).append("'")
+                .append(", clubColors='").append(clubColors).append("'")
+                .append(", enabled=").append(enabled)
+                .append('}');
+        return sb.toString();
+    }
 }

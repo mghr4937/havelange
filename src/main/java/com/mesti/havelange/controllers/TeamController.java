@@ -38,19 +38,19 @@ public class TeamController {
         return new ResponseEntity<>(team, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> save(@Valid @RequestBody TeamDTO teamDto) {
         var createdTeam = teamService.save(teamDto);
         return new ResponseEntity<>(createdTeam, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> delete(@PathVariable Long id) {
         teamService.disableTeam(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> update(@PathVariable Long id, @Valid @RequestBody TeamDTO teamDto) {
         var updatedTeam = teamService.update(id, teamDto);
 

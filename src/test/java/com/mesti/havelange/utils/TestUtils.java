@@ -56,15 +56,30 @@ public class TestUtils {
         return createRandomPlayer(team);
     }
 
+    public static List<Player> createRandomPlayers(Team team, int numPlayers) {
+        Player player = new Player();
+
+        var players = new ArrayList<Player>();
+        for (int i = 0; i < numPlayers; i++) {
+            player = createRandomPlayer(team);
+            players.add(player);
+        }
+        team.setPlayers(players);
+
+        return team.getPlayers();
+    }
+
     public static Player createRandomPlayer(Team team) {
 
         Player player = new Player();
-        player.setName(FAKER.name().fullName());
+        player.setName(FAKER.name().firstName());
+        player.setLastName(FAKER.name().lastName());
         player.setIdentityId(FAKER.idNumber().valid());
         player.setDateOfBirth(LocalDate.of(FAKER.number().numberBetween(1975, 2015),
                 FAKER.number().numberBetween(1, 12),
                 FAKER.number().numberBetween(1, 25)));
         player.setShirtNumber(FAKER.number().numberBetween(1, 99));
+        player.setGender("M");
         player.setTeam(team);
         player.setEnabled(true);
         return player;

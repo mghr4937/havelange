@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,6 +24,7 @@ public class Player {
     private String name;
     @NotBlank
     private String lastName;
+    @JsonFormat
     @NotNull
     private LocalDate dateOfBirth;
     @Min(value = 0)

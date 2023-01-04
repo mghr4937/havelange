@@ -23,9 +23,7 @@ public class TeamService {
     private final PlayerRepository playerRepository;
 
     public List<TeamDTO> getAll() {
-        // obtén todos los equipos
         var teams = teamRepository.findAll();
-        // recorre cada equipo y obtén los jugadores asociados
         for (var team : teams) {
             team.setPlayers(playerRepository.findByTeamId(team.getId()));
         }

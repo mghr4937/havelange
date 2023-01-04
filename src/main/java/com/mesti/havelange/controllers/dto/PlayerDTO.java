@@ -1,5 +1,6 @@
 package com.mesti.havelange.controllers.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -21,9 +22,7 @@ public class PlayerDTO {
     @NotBlank
     @Size(max = 128)
     private String lastName;
-    @NotBlank
-    @Size(max = 30)
-    private String phone;
+    @JsonFormat
     @NotNull
     private LocalDate dateOfBirth;
     @Min(1)

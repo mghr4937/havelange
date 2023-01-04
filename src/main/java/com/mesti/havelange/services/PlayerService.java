@@ -32,8 +32,13 @@ public class PlayerService {
         return EntityDtoMapper.map(player, PlayerDTO.class);
     }
 
+    public List<PlayerDTO> getByTeamId(long id) {
+        var players = playerRepository.findByTeamId(id);
+        return EntityDtoMapper.mapAll(players, PlayerDTO.class);
+    }
+
     public PlayerDTO save(PlayerDTO playerDTO) {
-        Team team = teamRepository.getReferenceById(playerDTO.getId());
+        Team team = teamRepository.getReferenceById(playerDTO.getTeam().getId());
         var player = EntityDtoMapper.map(playerDTO, Player.class);
 
         player.setTeam(team);
@@ -41,10 +46,27 @@ public class PlayerService {
         return EntityDtoMapper.map(player, PlayerDTO.class);
     }
 
+    public PlayerDTO update(long id, PlayerDTO playerDTO) {
+        var existingPlayer = playerRepository.getReferenceById(id);
+        var team = teamRepository.getReferenceById(playerDTO.getTeam().getId());
+
+        // Actualizar los campos del jugador
+        existingPlayer.setName(playerDTO.getName());
+        existingPlayer.setLastName(playerDTO.getLastName());
+        existingPlayer.setDateOfBirth(playerDTO.getDateOfBirth());
+        existingPlayer.setShirtNumber(playerDTO.getShirtNumber());
+        existingPlayer.setTeam(team);
+        existingPlayer.setEnabled(playerDTO.isEnabled());
+        existingPlayer.setGender(playerDTO.getGender());
+        existingPlayer.setIdentityId(playerDTO.getIdentityId());
+
+        existingPlayer = playerRepository.save(existingPlayer);
+        return EntityDtoMapper.map(existingPlayer, PlayerDTO.class);
+    }
+
     public void disablePlayer(Long id) {
         var player = playerRepository.getReferenceById(id);
         player.setEnabled(false);
         playerRepository.save(player);
     }
-
 }

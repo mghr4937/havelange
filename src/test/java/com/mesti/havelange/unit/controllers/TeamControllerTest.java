@@ -51,9 +51,8 @@ public class TeamControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(4)));
+                .andExpect(jsonPath("$", hasSize(3)));
         log.info("GET Successful, Teams Listed");
-
     }
 
     @Test
@@ -238,6 +237,5 @@ public class TeamControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(teamDto)))
                 .andExpect(status().isNotFound());
-
     }
 }

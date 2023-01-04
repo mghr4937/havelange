@@ -20,7 +20,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
-    boolean alreadySetup = false;
+    boolean alreadySetup = true;
 
     public SetupDataLoader(UserRepository userRepository, TeamRepository teamRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
