@@ -7,6 +7,7 @@ import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Validated
 public class UserService {
     private final UserRepository userRepository;
 
