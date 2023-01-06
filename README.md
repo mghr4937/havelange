@@ -19,4 +19,4 @@ For building and running the application you need:
 
 ## Swagger UI
 
-[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+[**http://localhost:8080/swagger-ui/index.html**](http://localhost:8080/swagger-ui/index.html)
