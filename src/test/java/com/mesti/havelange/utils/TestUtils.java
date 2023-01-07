@@ -62,6 +62,7 @@ public class TestUtils {
         var players = new ArrayList<Player>();
         for (int i = 0; i < numPlayers; i++) {
             player = createRandomPlayer(team);
+            player.setShirtNumber(i+1);
             players.add(player);
         }
         team.setPlayers(players);
