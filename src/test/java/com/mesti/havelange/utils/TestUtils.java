@@ -51,7 +51,7 @@ public class TestUtils {
         return team;
     }
 
-    public static Player createRandomPlayer(){
+    public static Player createRandomPlayer() {
         var team = createRandomTeam();
         return createRandomPlayer(team);
     }
@@ -62,7 +62,7 @@ public class TestUtils {
         var players = new ArrayList<Player>();
         for (int i = 0; i < numPlayers; i++) {
             player = createRandomPlayer(team);
-            player.setShirtNumber(i+1);
+            player.setShirtNumber(i + 1);
             players.add(player);
         }
         team.setPlayers(players);

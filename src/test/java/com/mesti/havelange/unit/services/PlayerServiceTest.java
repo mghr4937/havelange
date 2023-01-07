@@ -6,6 +6,7 @@ import com.mesti.havelange.repositories.PlayerRepository;
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.services.PlayerService;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,7 +61,7 @@ public class PlayerServiceTest {
         PlayerDTO playerDTO = playerService.getById(player.getId());
 
         // then
-        assertNotNull(playerDTO);
+        Assertions.assertNotNull(playerDTO);
         assertEquals(player.getId(), playerDTO.getId());
         assertEquals(player.getName(), playerDTO.getName());
         assertEquals(player.getDateOfBirth(), playerDTO.getDateOfBirth());
@@ -85,6 +86,7 @@ public class PlayerServiceTest {
         verify(playerRepository, never()).save(any());
 
     }
+
     @Test
     public void testSave_shouldSavePlayer() {
         var player = createRandomPlayer();
@@ -165,11 +167,6 @@ public class PlayerServiceTest {
         verify(playerRepository, never()).save(any());
 
     }
-
-
-
-
-
 
 
 }

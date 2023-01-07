@@ -19,6 +19,7 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerService playerService;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<PlayerDTO>> getAll() {
         return new ResponseEntity<>(playerService.getAll(), HttpStatus.OK);
@@ -38,7 +39,7 @@ public class PlayerController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PlayerDTO> save(@Valid @RequestBody PlayerDTO playerDTO) {
-        var createdPlayer= playerService.save(playerDTO);
+        var createdPlayer = playerService.save(playerDTO);
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
 

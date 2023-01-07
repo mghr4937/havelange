@@ -50,7 +50,7 @@ public class TeamDTO {
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Validated
-class TeamPlayerDTO{
+class TeamPlayerDTO {
     private Long id;
     @Min(value = 0)
     private int shirtNumber;

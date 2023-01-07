@@ -10,13 +10,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import javax.persistence.EntityNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
-public class RestExceptionHandler  {
+public class RestExceptionHandler {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -47,8 +48,8 @@ public class RestExceptionHandler  {
         return new ResponseEntity<>(getErrorsMap(errorMap), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    private Map<String,  Map<String, String> > getErrorsMap( Map<String, String>  errors) {
-        Map<String,  Map<String, String> > errorResponse = new HashMap<>();
+    private Map<String, Map<String, String>> getErrorsMap(Map<String, String> errors) {
+        Map<String, Map<String, String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);
         return errorResponse;
     }

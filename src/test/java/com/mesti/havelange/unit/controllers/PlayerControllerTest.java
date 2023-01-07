@@ -43,7 +43,7 @@ public class PlayerControllerTest {
     private Team team;
 
     @BeforeEach
-    private void setup(){
+    private void setup() {
         team = teamRepository.saveAndFlush(createRandomTeam());
         log.info("Test data loaded: {}", team);
 

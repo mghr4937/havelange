@@ -1,6 +1,7 @@
 package com.mesti.havelange.models;
 
 import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
