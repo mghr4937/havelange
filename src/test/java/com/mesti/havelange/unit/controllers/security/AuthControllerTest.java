@@ -1,4 +1,4 @@
-package com.mesti.havelange.unit.controllers;
+package com.mesti.havelange.unit.controllers.security;
 
 import com.mesti.havelange.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;

@@ -13,8 +13,20 @@ public class Location {
     private Long id;
     @NotBlank
     private String name;
+    @NotBlank
+    private String address;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", name='" + name + "'" +
+                ", address='" + address + "'" +
+                ", tournament=" + tournament.getId() +
+                '}';
+    }
 }
 

@@ -28,4 +28,17 @@ public class Tournament {
     )
     private List<Team> teams;
     private boolean enabled = true;
+
+    @Override
+    public String toString() {
+        return "Tournament{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", locations=" + locations +
+                ", teams=" + teams +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

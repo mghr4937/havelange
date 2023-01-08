@@ -1,4 +1,4 @@
-package com.mesti.havelange.controllers;
+package com.mesti.havelange.controllers.security;
 
 import com.mesti.havelange.controllers.dto.security.UserDTO;
 import com.mesti.havelange.services.UserService;

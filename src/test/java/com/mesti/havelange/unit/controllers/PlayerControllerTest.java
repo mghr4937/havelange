@@ -185,7 +185,6 @@ public class PlayerControllerTest {
                 .andExpect(jsonPath("$.enabled").value(playerDTO.isEnabled()))
                 .andExpect(jsonPath("$.gender").value(playerDTO.getGender()))
                 .andExpect(jsonPath("$.identityId").value(playerDTO.getIdentityId()));
-
     }
 
     @Test
@@ -239,5 +238,6 @@ public class PlayerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("[]"));
     }
+
 
 }

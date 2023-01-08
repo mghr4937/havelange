@@ -1,4 +1,4 @@
-package com.mesti.havelange.unit.controllers;
+package com.mesti.havelange.unit.controllers.security;
 
 import com.mesti.havelange.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,6 @@ public class UserControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private UserRepository userRepository;
-
 
     @Test
     @Transactional
@@ -115,5 +114,4 @@ public class UserControllerTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isNotFound());
     }
-
 }

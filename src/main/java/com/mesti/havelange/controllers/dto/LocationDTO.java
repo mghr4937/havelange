@@ -13,8 +13,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Builder
 public class LocationDTO {
+    private Long id;
     @NotBlank
     private String name;
+    @NotBlank
+    private String address;
     @NotNull
     private Long tournamentId;
 }

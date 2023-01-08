@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -40,16 +42,20 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Map<String, String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, String> errorMap = new HashMap<>();
+    public ResponseEntity<Map<String, List<Map<String, String>>>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        List<Map<String, String>> errorList = new ArrayList<>();
         ex.getBindingResult().getFieldErrors()
-                .forEach(error -> errorMap.put(error.getField(), error.getDefaultMessage()));
+                .forEach(error -> {
+                    Map<String, String> errorMap = new HashMap<>();
+                    errorMap.put(error.getField(), error.getDefaultMessage());
+                    errorList.add(errorMap);
+                });
+        return new ResponseEntity<>(getErrorsMap(errorList), new HttpHeaders(), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<>(getErrorsMap(errorMap), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    private Map<String, Map<String, String>> getErrorsMap(Map<String, String> errors) {
-        Map<String, Map<String, String>> errorResponse = new HashMap<>();
+    private Map<String, List<Map<String, String>>> getErrorsMap(List<Map<String, String>> errors) {
+        Map<String, List<Map<String, String>>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);
         return errorResponse;
     }

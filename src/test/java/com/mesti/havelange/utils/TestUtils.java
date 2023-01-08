@@ -1,8 +1,10 @@
 package com.mesti.havelange.utils;
 
 import com.github.javafaker.Faker;
+import com.mesti.havelange.models.Location;
 import com.mesti.havelange.models.Player;
 import com.mesti.havelange.models.Team;
+import com.mesti.havelange.models.Tournament;
 import com.mesti.havelange.models.users.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +40,32 @@ public class TestUtils {
         team.setEmail(FAKER.internet().emailAddress());
         team.setClubColors(FAKER.color().name());
         return team;
+    }
+
+    public static Tournament createRandomTournament() {
+        Tournament tournament = new Tournament();
+        tournament.setName(FAKER.esports().league().concat(" Cup"));
+        tournament.setCountry(FAKER.country().name());
+        tournament.setCity(FAKER.nation().capitalCity());
+        tournament.setLocations(List.of());
+        tournament.setTeams(new ArrayList<>());
+        tournament.setEnabled(true);
+
+        return tournament;
+    }
+
+    public static List<Location> createRandomLocations(Tournament tournament, int numLocations) {
+        var locations = new ArrayList<Location>();
+        for (int i = 0; i < numLocations; i++) {
+            var location = new Location();
+            location.setName(FAKER.funnyName().name().concat(" Arena"));
+            location.setAddress(FAKER.address().fullAddress());
+            location.setTournament(tournament);
+            locations.add(location);
+        }
+        tournament.setLocations(locations);
+
+        return tournament.getLocations();
     }
 
     public static Team createRandomTeamWithPlayers(int numPlayers) {

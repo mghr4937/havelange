@@ -19,6 +19,7 @@ CREATE TABLE tournament_teams (
 CREATE TABLE locations (
   id bigserial PRIMARY KEY,
   name varchar(255) NOT NULL,
+  address varchar(255) NOT NULL,
   tournament_id bigint NOT NULL,
   FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
 );
