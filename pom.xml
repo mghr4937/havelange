@@ -100,8 +100,6 @@
             <version>1.17.6</version>
             <scope>test</scope>
         </dependency>
-
-
         <!--		SWAGGER 2-->
         <dependency>
             <groupId>io.springfox</groupId>

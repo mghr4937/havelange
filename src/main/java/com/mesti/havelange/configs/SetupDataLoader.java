@@ -6,6 +6,7 @@ import com.mesti.havelange.repositories.PlayerRepository;
 import com.mesti.havelange.repositories.TeamRepository;
 import com.mesti.havelange.models.users.User;
 import com.mesti.havelange.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,13 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
+@Slf4j
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
     private final PlayerRepository playerRepository;
     private final PasswordEncoder passwordEncoder;
-    boolean alreadySetup = true;
+    boolean alreadySetup = false;
 
     public SetupDataLoader(UserRepository userRepository, TeamRepository teamRepository, PlayerRepository playerRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -33,13 +35,15 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if (alreadySetup)
+
+
+        if (userRepository.findByUsername("admin").isPresent())
             return;
 
         User user = new User();
         user.setUsername("admin");
         user.setPassword(passwordEncoder.encode("test"));
-        user.setEmail("amin@havelange.com");
+        user.setEmail("admin@havelange.com");
         user.setEnabled(true);
         userRepository.saveAndFlush(user);
 
@@ -61,7 +65,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         player.setIdentityId("4.111.123-5");
         playerRepository.saveAndFlush(player);
 
-        alreadySetup = true;
+        log.info("Database pre-loaded");
     }
 
 

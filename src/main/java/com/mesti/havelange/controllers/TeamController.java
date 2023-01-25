@@ -28,20 +28,20 @@ public class TeamController {
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> getById(@PathVariable Long id) {
-        var team = teamService.getByID(id);
-        return new ResponseEntity<>(team, HttpStatus.OK);
+        var teamDTO = teamService.getByID(id);
+        return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> getByName(@Valid @RequestParam String name) {
-        var team = teamService.getByName(name);
-        return new ResponseEntity<>(team, HttpStatus.OK);
+        var teamDTO = teamService.getByName(name);
+        return new ResponseEntity<>(teamDTO, HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> save(@Valid @RequestBody TeamDTO teamDto) {
-        var createdTeam = teamService.save(teamDto);
-        return new ResponseEntity<>(createdTeam, HttpStatus.CREATED);
+        var createdTeamDTO = teamService.save(teamDto);
+        return new ResponseEntity<>(createdTeamDTO, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,8 +52,7 @@ public class TeamController {
 
     @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeamDTO> update(@PathVariable Long id, @Valid @RequestBody TeamDTO teamDto) {
-        var updatedTeam = teamService.update(id, teamDto);
-
-        return new ResponseEntity<>(updatedTeam, HttpStatus.OK);
+        var updatedTeamDTO = teamService.update(id, teamDto);
+        return new ResponseEntity<>(updatedTeamDTO, HttpStatus.OK);
     }
 }

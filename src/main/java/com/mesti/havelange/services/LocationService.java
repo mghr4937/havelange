@@ -21,6 +21,7 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final TournamentRepository tournamentRepository;
 
+
     public List<LocationDTO> getAll() {
         var locations = locationRepository.findAll();
         return EntityDtoMapper.mapAll(locations, LocationDTO.class);
