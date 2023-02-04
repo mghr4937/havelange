@@ -45,7 +45,7 @@ public class LocationControllerTest {
     @Transactional
     public void testGetAll_shouldReturnListOfLocationDTO() throws Exception {
         // Given
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         List<Location> locations = createRandomLocations(tournament, 3);
         locations = locationRepository.saveAllAndFlush(locations);
@@ -78,7 +78,7 @@ public class LocationControllerTest {
     @Transactional
     public void testCreate_success() throws Exception {
         // Given
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         log.info("Data Loaded {}", tournament);
         var locationDTO = EntityDtoMapper.map(createRandomLocations(tournament, 1).get(0), LocationDTO.class);
@@ -97,7 +97,7 @@ public class LocationControllerTest {
     @Transactional
     public void testGetById_shouldReturnLocationDTO() throws Exception {
         // Given
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         log.info("Data Loaded {}", tournament);
         List<Location> locations = createRandomLocations(tournament, 1);
@@ -119,7 +119,7 @@ public class LocationControllerTest {
     @Transactional
     public void testCreate_failure_emptyFields() throws Exception {
         // Given
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         log.info("Data Loaded {}", tournament);
         var locationDTO = EntityDtoMapper.map(createRandomLocations(tournament, 1).get(0), LocationDTO.class);
@@ -140,7 +140,7 @@ public class LocationControllerTest {
     @Transactional
     public void testUpdate_success() throws Exception {
         // Given
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         log.info("Data Loaded {}", tournament);
         var location = createRandomLocations(tournament, 1).get(0);
@@ -170,7 +170,7 @@ public class LocationControllerTest {
     @Test
     @Transactional
     public void testUpdate_failure_locationNotFound() throws Exception {
-        var tournament = createRandomTournament();
+        var tournament = createRandomTournament(1).get(0);
         tournament = tournamentRepository.saveAndFlush(tournament);
         log.info("Data Loaded {}", tournament);
         // Given

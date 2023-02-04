@@ -46,12 +46,6 @@ public class TournamentService {
             }
             locationRepository.saveAll(locations);
         }
-//        // Si se han especificado equipos para el torneo, se guardan también
-//        if (tournamentDTO.getTeams() != null) {
-//            var teams = EntityDtoMapper.mapAll(tournamentDTO.getTeams(), Team.class);
-//            teams.forEach(team -> team.addTournament(tournament));
-//            teamRepository.saveAll(teams);
-//        }
 
         return EntityDtoMapper.map(tournament, TournamentDTO.class);
     }

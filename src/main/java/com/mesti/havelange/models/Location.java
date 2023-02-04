@@ -16,7 +16,7 @@ public class Location {
     @NotBlank
     private String address;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tournament_id")
+    @JoinColumn(name = "tournaments_id")
     private Tournament tournament;
 
     @Override

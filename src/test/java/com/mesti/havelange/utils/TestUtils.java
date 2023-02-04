@@ -42,16 +42,22 @@ public class TestUtils {
         return team;
     }
 
-    public static Tournament createRandomTournament() {
-        Tournament tournament = new Tournament();
-        tournament.setName(FAKER.esports().league().concat(" Cup"));
-        tournament.setCountry(FAKER.country().name());
-        tournament.setCity(FAKER.nation().capitalCity());
-        tournament.setLocations(List.of());
-        tournament.setTeams(new ArrayList<>());
-        tournament.setEnabled(true);
+    public static List <Tournament> createRandomTournament(int numTournaments ) {
+        var tournaments = new ArrayList<Tournament>();
+        for (int i = 0; i < numTournaments; i++) {
+            var tournament = new Tournament();
+            tournament.setName(FAKER.esports().league().concat(" Cup"));
+            tournament.setCountry(FAKER.country().name());
+            tournament.setCity(FAKER.nation().capitalCity());
+            tournament.setLocations(List.of());
+            tournament.setTeams(new ArrayList<>());
+            tournament.setEnabled(true);
+            tournaments.add(tournament);
+        }
 
-        return tournament;
+
+
+        return tournaments;
     }
 
     public static List<Location> createRandomLocations(Tournament tournament, int numLocations) {

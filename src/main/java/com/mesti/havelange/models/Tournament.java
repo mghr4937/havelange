@@ -21,11 +21,6 @@ public class Tournament {
     @ElementCollection
     private List<Location> locations;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "tournament_teams",
-            joinColumns = @JoinColumn(name = "tournament_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id")
-    )
     private List<Team> teams;
     private boolean enabled = true;
 

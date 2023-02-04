@@ -5,7 +5,7 @@ CREATE TABLE users (
   password varchar(255) NOT NULL,
   token varchar(255),
   enabled boolean NOT NULL DEFAULT true,
-  last_request_date date
+  last_request_date timestamp
 );
 
 CREATE UNIQUE INDEX uq_users_username ON users (username);
@@ -38,8 +38,6 @@ enabled boolean NOT NULL DEFAULT true,
 FOREIGN KEY (team_id) REFERENCES teams(id)
 );
 
-ALTER TABLE players ADD CONSTRAINT uq_players_name UNIQUE (name);
-ALTER TABLE players ADD CONSTRAINT uq_players_shirt_number UNIQUE (shirt_number);
 ALTER TABLE players ADD CONSTRAINT chk_players_shirt_number CHECK (shirt_number > 0);
 
 CREATE TABLE teams_players (
