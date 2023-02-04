@@ -2,6 +2,7 @@ package com.mesti.havelange.services;
 
 import com.mesti.havelange.controllers.dto.TournamentDTO;
 import com.mesti.havelange.models.Location;
+import com.mesti.havelange.models.Team;
 import com.mesti.havelange.models.Tournament;
 import com.mesti.havelange.repositories.LocationRepository;
 import com.mesti.havelange.repositories.TeamRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -50,13 +52,27 @@ public class TournamentService {
         return EntityDtoMapper.map(tournament, TournamentDTO.class);
     }
 
+    public void addTeamsToTournament(Long tournamentId, List<Long> teamIds) {
+        Tournament tournament = tournamentRepository.findById(tournamentId)
+                .orElseThrow(() -> new EntityNotFoundException("Tournament not found with id: " + tournamentId));
+        List<Team> teams = teamRepository.findAllById(teamIds);
+        tournament.getTeams().addAll(teams);
+        tournamentRepository.save(tournament);
+    }
+
+    public void removeTeamFromTournament(Long tournamentId, Long teamId) {
+        var tournament = tournamentRepository.findById(tournamentId)
+                .orElseThrow(() -> new EntityNotFoundException("Tournament with id " + tournamentId + " not found"));
+        var team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team with id " + teamId + " not found"));
+        tournament.removeTeam(team);
+        tournamentRepository.save(tournament);
+    }
+
     public void disableTournament(Long id) {
         var tournament = tournamentRepository.getReferenceById(id);
         tournament.setEnabled(false);
         tournamentRepository.saveAndFlush(tournament);
     }
-
-
-
 
 }
