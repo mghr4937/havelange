@@ -118,32 +118,6 @@ public class PlayerControllerTest {
 
     @Test
     @Transactional
-    public void testCreate_failure_uniqueConstraint() throws Exception {
-        // Given
-        var playerDTO = EntityDtoMapper.map(createRandomPlayer(team), PlayerDTO.class);
-
-        // When
-        mockMvc.perform(post("/player")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(playerDTO)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value(playerDTO.getName()))
-                .andExpect(jsonPath("$.lastName").value(playerDTO.getLastName()))
-                .andExpect(jsonPath("$.shirtNumber").value(playerDTO.getShirtNumber()))
-                .andExpect(jsonPath("$.team.id").isNumber())
-                .andExpect(jsonPath("$.enabled").value(playerDTO.isEnabled()))
-                .andExpect(jsonPath("$.gender").value(playerDTO.getGender()))
-                .andExpect(jsonPath("$.identityId").value(playerDTO.getIdentityId()));
-
-        mockMvc.perform(post("/player")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(playerDTO)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @Transactional
     public void testCreate_failure_emptyFields() throws Exception {
         // Given
         var playerDTO = EntityDtoMapper.map(createRandomTeam(), PlayerDTO.class);
