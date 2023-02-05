@@ -1,7 +1,7 @@
 package com.mesti.havelange.controllers;
 
-import com.mesti.havelange.controllers.dto.AddTeamsToTournamentDTO;
-import com.mesti.havelange.controllers.dto.TournamentDTO;
+import com.mesti.havelange.controllers.dto.tournament.AddTeamsToTournamentDTO;
+import com.mesti.havelange.controllers.dto.tournament.TournamentDTO;
 import com.mesti.havelange.services.TournamentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

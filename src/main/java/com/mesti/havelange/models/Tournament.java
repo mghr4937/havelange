@@ -24,6 +24,9 @@ public class Tournament {
     private List<Team> teams;
     private boolean enabled = true;
 
+    @ElementCollection
+    private List<Match> matches;
+
     public void removeTeam(Team team) {
         this.teams.remove(team);
     }

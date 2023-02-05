@@ -1,6 +1,7 @@
-package com.mesti.havelange.controllers.dto;
+package com.mesti.havelange.controllers.dto.tournament;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mesti.havelange.controllers.dto.LocationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

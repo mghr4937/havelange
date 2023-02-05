@@ -1,4 +1,4 @@
-package com.mesti.havelange.controllers.dto;
+package com.mesti.havelange.controllers.dto.tournament;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
