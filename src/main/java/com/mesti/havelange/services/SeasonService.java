@@ -5,6 +5,7 @@ import com.mesti.havelange.models.Season;
 import com.mesti.havelange.repositories.SeasonRepository;
 import com.mesti.havelange.services.mapper.EntityDtoMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -14,9 +15,11 @@ import javax.persistence.EntityNotFoundException;
 @Transactional
 @Validated
 @RequiredArgsConstructor
+@Slf4j
 public class SeasonService {
 
     private final SeasonRepository seasonRepository;
+
 
     public SeasonDTO getSeasonById(Long id) {
         var season = seasonRepository.findById(id)
@@ -41,4 +44,6 @@ public class SeasonService {
         season = seasonRepository.save(season);
         return EntityDtoMapper.map(season, SeasonDTO.class);
     }
+
+
 }

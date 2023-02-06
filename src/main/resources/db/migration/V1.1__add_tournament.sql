@@ -1,5 +1,5 @@
 CREATE TABLE tournaments (
-  id bigserial PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   name varchar(255) NOT NULL,
   country varchar(255) NOT NULL,
   city varchar(255) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE tournaments_teams (
 );
 
 CREATE TABLE locations (
-  id bigserial PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   name varchar(255) NOT NULL,
   address varchar(255) NOT NULL,
   tournaments_id bigint NOT NULL,

@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  id bigserial PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
   username varchar(255) NOT NULL,
   email varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE UNIQUE INDEX uq_users_username ON users (username);
 CREATE UNIQUE INDEX uq_users_email ON users (email);
 
 CREATE TABLE teams (
-  id bigserial PRIMARY KEY ,
+  id BIGSERIAL PRIMARY KEY ,
   name VARCHAR(255) NOT NULL,
   shortname VARCHAR(255),
   city VARCHAR(255) NOT NULL,
@@ -26,7 +26,7 @@ CREATE UNIQUE INDEX uq_teams_name ON teams (name);
 CREATE UNIQUE INDEX uq_teams_email ON teams (email);
 
 CREATE TABLE players (
-id bigserial PRIMARY KEY,
+id BIGSERIAL PRIMARY KEY,
 name varchar(255) NOT NULL,
 last_name varchar(255) NOT NULL,
 identity_id varchar(255) NOT NULL,

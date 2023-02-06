@@ -37,8 +37,8 @@ public class Match {
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name = "season_id", nullable = false)
-    private Season season;
+    @JoinColumn(name = "match_day_id", nullable = false)
+    private MatchDay matchDay;
 
     @Column(name = "start_time")
     @NotBlank
@@ -50,4 +50,14 @@ public class Match {
     @Column(name = "away_team_score")
     private Integer awayTeamScore;
 
+    @Override
+    public String toString() {
+        return "Match{" +
+                "id=" + id +
+                ", homeTeam=" + homeTeam.getName() +
+                ", awayTeam=" + awayTeam.getName() +
+                ", startTime=" + startTime +
+                ", tournament=" + tournament.getName() +
+                '}';
+    }
 }

@@ -6,7 +6,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity(name = "seasons")
 @Data
@@ -28,7 +27,17 @@ public class Season {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Match> matches;
+    @ManyToOne
+    @JoinColumn(name = "match_day_id")
+    private MatchDay matchDay;
 
+    @Override
+    public String toString() {
+        return "Season{" +
+                "id=" + id +
+                ", tournament=" + tournament.getName() +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }

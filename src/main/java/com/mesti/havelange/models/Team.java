@@ -1,6 +1,9 @@
 package com.mesti.havelange.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -10,6 +13,9 @@ import java.util.List;
 
 @Data
 @Entity(name = "teams")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Team {
 
     @Id
@@ -39,17 +45,10 @@ public class Team {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Team{")
-                .append("id=").append(id)
-                .append(", name='").append(name).append("'")
-                .append(", shortname='").append(shortname).append("'")
-                .append(", city='").append(city).append("'")
-                .append(", phone='").append(phone).append("'")
-                .append(", email='").append(email).append("'")
-                .append(", clubColors='").append(clubColors).append("'")
-                .append(", enabled=").append(enabled)
-                .append('}');
-        return sb.toString();
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + "'" +
+                ", city='" + city + "'" +
+                '}';
     }
 }
