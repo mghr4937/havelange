@@ -13,10 +13,18 @@ CREATE TABLE matches (
   FOREIGN KEY (away_team_id) REFERENCES teams(id)
 );
 
-CREATE TABLE tournaments_matches (
-  tournaments_id bigint NOT NULL,
-  matches_id bigint NOT NULL,
-  PRIMARY KEY (tournaments_id, matches_id),
-  FOREIGN KEY (tournaments_id) REFERENCES tournaments(id) ON DELETE CASCADE,
-  FOREIGN KEY (matches_id) REFERENCES matches(id) ON DELETE CASCADE
+CREATE TABLE seasons (
+  id bigserial PRIMARY KEY,
+  tournament_id BIGINT NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  FOREIGN KEY (tournament_id) REFERENCES tournaments(id)
+);
+
+CREATE TABLE seasons_matches (
+  season_id BIGINT NOT NULL,
+  match_id BIGINT NOT NULL,
+  PRIMARY KEY (season_id, match_id),
+  FOREIGN KEY (season_id) REFERENCES seasons(id) ON DELETE CASCADE,
+  FOREIGN KEY (match_id) REFERENCES matches(id) ON DELETE CASCADE
 );

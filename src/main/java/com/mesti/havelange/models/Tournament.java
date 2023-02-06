@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -23,9 +24,9 @@ public class Tournament {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Team> teams;
     private boolean enabled = true;
+    @OneToMany(mappedBy = "tournament")
+    private List<Season> seasons = new ArrayList<>();
 
-    @ElementCollection
-    private List<Match> matches;
 
     public void removeTeam(Team team) {
         this.teams.remove(team);

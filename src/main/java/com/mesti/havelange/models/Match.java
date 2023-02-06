@@ -36,6 +36,10 @@ public class Match {
     @JoinColumn(name = "tournament_id", referencedColumnName = "id")
     private Tournament tournament;
 
+    @ManyToOne
+    @JoinColumn(name = "season_id", nullable = false)
+    private Season season;
+
     @Column(name = "start_time")
     @NotBlank
     private LocalDateTime startTime;
