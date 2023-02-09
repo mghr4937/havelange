@@ -1,12 +1,10 @@
 package com.mesti.havelange.controllers.dto.tournament;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mesti.havelange.controllers.dto.LocationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -29,16 +27,3 @@ public class TournamentDTO {
 
 }
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Validated
-class TeamSummaryDTO {
-
-    private Long id;
-    private String name;
-
-
-}
